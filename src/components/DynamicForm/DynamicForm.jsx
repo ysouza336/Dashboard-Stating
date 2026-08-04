@@ -1,16 +1,19 @@
 import CardSection from "../CardSection";
+import FormField from "../FormField";
 
 function DynamicForm({
 
-    sections
+    sections,
+    values,
+    onChange
 
-}){
+}) {
 
-    return(
+    return (
 
         <>
 
-            {sections.map(section=>(
+            {sections.map(section => (
 
                 <CardSection
                     key={section.id}
@@ -19,7 +22,22 @@ function DynamicForm({
 
                     <div className="row">
 
-                        {/* Próxima etapa */}
+                        {section.fields.map(field => (
+
+                            <div
+                                key={field.name}
+                                className={`col-md-${field.col}`}
+                            >
+
+                                <FormField
+                                    field={field}
+                                    value={values[field.name]}
+                                    onChange={onChange}
+                                />
+
+                            </div>
+
+                        ))}
 
                     </div>
 
@@ -29,7 +47,7 @@ function DynamicForm({
 
         </>
 
-    )
+    );
 
 }
 
