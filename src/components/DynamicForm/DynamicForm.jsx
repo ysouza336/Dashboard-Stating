@@ -1,4 +1,4 @@
-import CardSection from "../CardSection";
+import CardSection from "../CardSection/CardSection";
 import FormField from "../FormField";
 
 function DynamicForm({

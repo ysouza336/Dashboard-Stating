@@ -1,6 +1,6 @@
-import Input from "../Input";
-import Select from "../Select";
-import TextArea from "../TextArea";
+import Input from "../Input/Input";
+import Select from "../Select/Select";
+import TextArea from ".";
 import DateInput from "../DateInput";
 
 function FormField({

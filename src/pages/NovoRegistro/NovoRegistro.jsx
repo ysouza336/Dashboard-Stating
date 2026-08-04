@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import DynamicForm from "../../components/DynamicForm";
+import DynamicForm from "../../components/DynamicForm/DynamicForm";
 import formSections from "../../data/formSections";
 
 function NovoRegistro() {
