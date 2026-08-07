@@ -1,5 +1,6 @@
 import Input from "../Input";
 
+<<<<<<< HEAD
 function DateInput(props){
 
     return(
@@ -14,6 +15,15 @@ function DateInput(props){
 
     )
 
+=======
+function DateInput(props) {
+    return (
+        <Input
+            {...props}
+            type="date"
+        />
+    );
+>>>>>>> b78e006ea44955a95d6d3ce3f6ef5c794343de28
 }
 
 export default DateInput;
