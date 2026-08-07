@@ -1,41 +1,50 @@
-import { useState } from "react";
-
 import DynamicForm from "../../components/DynamicForm/DynamicForm";
 import formSections from "../../data/formSections";
 
+import useRegistroForm from "../../hooks/useRegistroForm";
+
 function NovoRegistro() {
 
-    const [formData, setFormData] = useState({});
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useRegistroForm();
 
-    function handleChange(e) {
-
-        const { name, value } = e.target;
-
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-
+    function salvarRegistro(data) {
+        console.log("Registro enviado:", data);
     }
 
     return (
-
         <div>
 
             <h2 className="mb-4">
                 Novo Registro
             </h2>
 
-            <DynamicForm
-                sections={formSections}
-                values={formData}
-                onChange={handleChange}
-            />
+            <form onSubmit={handleSubmit(salvarRegistro)}>
+
+                <DynamicForm
+                    sections={formSections}
+                    register={register}
+                    errors={errors}
+                />
+
+                <div className="d-flex justify-content-end mt-4">
+
+                    <button
+                        type="submit"
+                        className="btn btn-primary"
+                    >
+                        Salvar Registro
+                    </button>
+
+                </div>
+
+            </form>
 
         </div>
-
     );
-
 }
 
 export default NovoRegistro;

@@ -1,61 +1,80 @@
 import "./Select.css";
 
 function Select({
-
     label,
-
     name,
-
-    value,
-
-    onChange,
-
     options = [],
-
-    required = false
-
-}){
-
-    return(
-
+    required = false,
+    register,
+    error,
+    disabled = false
+}) {
+    return (
         <div className="input-container">
 
-            <label className="form-label">
+            {label && (
+                <label htmlFor={name} className="form-label">
+                    {label}
 
-                {label}
-
-                {required && (
-                    <span className="required">*</span>
-                )}
-
-            </label>
+                    {required && (
+                        <span className="required">*</span>
+                    )}
+                </label>
+            )}
 
             <select
-                className="form-select"
-                name={name}
-                value={value}
-                onChange={onChange}
+                id={name}
+                className={`form-select ${error ? "is-invalid" : ""}`}
+                disabled={disabled}
+                {...register(name)}
             >
-
                 <option value="">
                     Selecione...
                 </option>
 
-                {options.map(option=>(
-                    <option
-                        key={option}
-                        value={option}
-                    >
-                        {option}
-                    </option>
-                ))}
+                {options.map((option) => {
+                    /*
+                     * Permite trabalhar tanto com:
+                     *
+                     * ["Dell", "Lenovo"]
+                     *
+                     * quanto com:
+                     *
+                     * [
+                     *   { value: "dell", label: "Dell" }
+                     * ]
+                     */
 
+                    if (typeof option === "object") {
+                        return (
+                            <option
+                                key={option.value}
+                                value={option.value}
+                            >
+                                {option.label}
+                            </option>
+                        );
+                    }
+
+                    return (
+                        <option
+                            key={option}
+                            value={option}
+                        >
+                            {option}
+                        </option>
+                    );
+                })}
             </select>
 
+            {error && (
+                <div className="invalid-feedback">
+                    {error.message}
+                </div>
+            )}
+
         </div>
-
-    )
-
+    );
 }
 
 export default Select;

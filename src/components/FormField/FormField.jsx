@@ -1,17 +1,16 @@
-import Input from "../Input/Input";
-import Select from "../Select/Select";
-import TextArea from "../TextArea/TextArea";
-<<<<<<< HEAD
-import DateInput from "../DateInput/DateInput";
-=======
-import DateInput from "../DateInput/index";
->>>>>>> b78e006ea44955a95d6d3ce3f6ef5c794343de28
+import Input from "../Input";
+import Select from "../Select";
+import TextArea from "../TextArea";
+import DateInput from "../DateInput";
 
 function FormField({
     field,
-    value,
-    onChange
+    register,
+    error
 }) {
+    if (!field) {
+        return null;
+    }
 
     switch (field.component) {
 
@@ -19,8 +18,8 @@ function FormField({
             return (
                 <Input
                     {...field}
-                    value={value}
-                    onChange={onChange}
+                    register={register}
+                    error={error}
                 />
             );
 
@@ -28,8 +27,8 @@ function FormField({
             return (
                 <Select
                     {...field}
-                    value={value}
-                    onChange={onChange}
+                    register={register}
+                    error={error}
                 />
             );
 
@@ -37,8 +36,8 @@ function FormField({
             return (
                 <TextArea
                     {...field}
-                    value={value}
-                    onChange={onChange}
+                    register={register}
+                    error={error}
                 />
             );
 
@@ -46,16 +45,18 @@ function FormField({
             return (
                 <DateInput
                     {...field}
-                    value={value}
-                    onChange={onChange}
+                    register={register}
+                    error={error}
                 />
             );
 
         default:
+            console.warn(
+                `Tipo de componente não suportado: ${field.component}`
+            );
+
             return null;
-
     }
-
 }
 
 export default FormField;

@@ -1,64 +1,22 @@
 import "./TextArea.css";
 
 function TextArea({
-<<<<<<< HEAD
-
-    label,
-
-    value,
-
-    name,
-
-    rows = 4,
-
-    onChange
-
-}){
-
-    return(
-
-        <div className="input-container">
-
-            <label className="form-label">
-
-                {label}
-
-            </label>
-
-            <textarea
-
-                className="form-control"
-
-                rows={rows}
-
-                name={name}
-
-                value={value}
-
-                onChange={onChange}
-
-            />
-
-        </div>
-
-    )
-=======
     label,
     name,
-    value,
-    onChange,
     placeholder = "",
     required = false,
     disabled = false,
-    rows = 4
+    rows = 4,
+    register,
+    error
 }) {
-
     return (
         <div className="input-container">
 
             {label && (
-                <label className="form-label">
+                <label htmlFor={name} className="form-label">
                     {label}
+
                     {required && (
                         <span className="required">*</span>
                     )}
@@ -66,19 +24,22 @@ function TextArea({
             )}
 
             <textarea
-                className="form-control"
-                name={name}
-                value={value ?? ""}
-                onChange={onChange}
+                id={name}
+                className={`form-control ${error ? "is-invalid" : ""}`}
                 placeholder={placeholder}
                 disabled={disabled}
                 rows={rows}
+                {...register(name)}
             />
+
+            {error && (
+                <div className="invalid-feedback">
+                    {error.message}
+                </div>
+            )}
 
         </div>
     );
->>>>>>> b78e006ea44955a95d6d3ce3f6ef5c794343de28
-
 }
 
 export default TextArea;

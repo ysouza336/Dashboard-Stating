@@ -3,42 +3,50 @@ import "./Input.css";
 function Input({
     label,
     name,
-    value,
-    onChange,
+    type = "text",
     placeholder = "",
     required = false,
     disabled = false,
-    type = "text"
+    register,
+    error
 }) {
-
     return (
-
         <div className="input-container">
 
-            <label className="form-label">
+            {label && (
+                <label
+                    htmlFor={name}
+                    className="form-label"
+                >
+                    {label}
 
-                {label}
-
-                {required && (
-                    <span className="required">*</span>
-                )}
-
-            </label>
+                    {required && (
+                        <span className="required">
+                            *
+                        </span>
+                    )}
+                </label>
+            )}
 
             <input
-                className="form-control"
+                id={name}
                 type={type}
-                name={name}
-                value={value}
-                onChange={onChange}
+                className={`form-control ${
+                    error ? "is-invalid" : ""
+                }`}
                 placeholder={placeholder}
                 disabled={disabled}
+                {...register(name)}
             />
 
+            {error && (
+                <div className="invalid-feedback">
+                    {error.message}
+                </div>
+            )}
+
         </div>
-
     );
-
 }
 
 export default Input;

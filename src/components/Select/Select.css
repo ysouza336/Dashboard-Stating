@@ -1,0 +1,17 @@
+.input-container {
+    margin-bottom: 20px;
+}
+
+.required {
+    color: #dc3545;
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+.form-select.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    display: block;
+}

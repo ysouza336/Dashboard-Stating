@@ -4,14 +4,14 @@ const formSections = [
     {
         id: "equipamento",
         title: "Dados do Equipamento",
-        icon: "computer",
 
         fields: [
-
             {
                 name: "patrimonio",
                 label: "Patrimônio",
+                component: "input",
                 type: "text",
+                placeholder: "Digite o patrimônio",
                 required: true,
                 col: 4
             },
@@ -19,7 +19,9 @@ const formSections = [
             {
                 name: "serial",
                 label: "IMEI / Serial",
+                component: "input",
                 type: "text",
+                placeholder: "Digite o IMEI ou Serial",
                 required: true,
                 col: 4
             },
@@ -27,142 +29,136 @@ const formSections = [
             {
                 name: "tipo",
                 label: "Tipo",
-                type: "select",
+                component: "select",
                 options: options.tipo,
+                required: true,
                 col: 4
             },
 
             {
                 name: "marca",
                 label: "Marca",
-                type: "select",
+                component: "select",
                 options: options.marca,
+                required: true,
                 col: 4
             },
 
             {
                 name: "modelo",
                 label: "Modelo",
+                component: "input",
                 type: "text",
+                placeholder: "Digite o modelo",
                 col: 4
             }
-
         ]
     },
 
     {
         id: "solicitacao",
-
         title: "Solicitação",
 
-        icon: "clipboard",
-
         fields: [
-
             {
                 name: "dataSolicitacao",
                 label: "Data Solicitação",
-                type: "date",
+                component: "date",
+                required: true,
                 col: 4
             },
 
             {
                 name: "solicitadoPor",
                 label: "Solicitado por",
-                type: "select",
+                component: "select",
                 options: options.solicitadoPor,
+                required: true,
                 col: 4
             }
-
         ]
     },
 
     {
         id: "staging",
-
         title: "Processo de Staging",
 
-        icon: "boxes",
-
         fields: [
-
             {
                 name: "tipoStaging",
                 label: "Tipo de Staging",
-                type: "select",
+                component: "select",
                 options: options.tipoStaging,
+                required: true,
                 col: 4
             },
 
             {
                 name: "escopoStaging",
                 label: "Escopo",
-                type: "select",
+                component: "select",
                 options: options.escopoStaging,
+                required: true,
                 col: 4
             },
 
             {
                 name: "localStaging",
                 label: "Local",
-                type: "select",
+                component: "select",
                 options: options.localStaging,
+                required: true,
                 col: 4
             },
 
             {
                 name: "responsavel",
                 label: "Responsável",
-                type: "select",
+                component: "select",
                 options: options.responsavel,
+                required: true,
                 col: 4
             }
-
         ]
     },
 
     {
         id: "finalizacao",
-
         title: "Finalização",
 
-        icon: "check",
-
         fields: [
-
             {
                 name: "dataInicio",
                 label: "Data Início",
-                type: "date",
+                component: "date",
                 col: 4
             },
 
             {
                 name: "dataConclusao",
                 label: "Data Conclusão",
-                type: "date",
+                component: "date",
                 col: 4
             },
 
             {
                 name: "status",
                 label: "Status",
-                type: "select",
+                component: "select",
                 options: options.status,
+                required: true,
                 col: 4
             },
 
             {
                 name: "observacao",
                 label: "Observações",
-                type: "textarea",
+                component: "textarea",
                 rows: 4,
                 col: 12
             }
-
         ]
     }
-
 ];
 
 export default formSections;
