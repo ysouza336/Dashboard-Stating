@@ -1,0 +1,15 @@
+.table th {
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.btn {
+    min-width: 120px;
+}

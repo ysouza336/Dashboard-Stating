@@ -1,0 +1,11 @@
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-header h2 {
+    font-weight: 600;
+}
+
+.card {
+    border-radius: 12px;
+}

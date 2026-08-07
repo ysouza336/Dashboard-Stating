@@ -1,0 +1,9 @@
+.input-container {
+    margin-bottom: 20px;
+}
+
+.required {
+    color: #dc3545;
+    margin-left: 4px;
+    font-weight: bold;
+}
