@@ -3,16 +3,26 @@ import formSections from "../../data/formSections";
 
 import useRegistroForm from "../../hooks/useRegistroForm";
 
+import { useRegistros } from "../../context/RegistroContext";
+
 function NovoRegistro() {
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors }
     } = useRegistroForm();
 
+    const { adicionarRegistro } = useRegistros();
+
     function salvarRegistro(data) {
-        console.log("Registro enviado:", data);
+
+        const novoRegistro = adicionarRegistro(data);
+
+        console.log("Registro cadastrado:", novoRegistro);
+
+        reset();
     }
 
     return (

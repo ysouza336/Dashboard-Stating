@@ -9,22 +9,34 @@ function Select({
     error,
     disabled = false
 }) {
+    console.log("SELECT:", {
+        name,
+        options
+    });
+
     return (
         <div className="input-container">
 
             {label && (
-                <label htmlFor={name} className="form-label">
+                <label
+                    htmlFor={name}
+                    className="form-label"
+                >
                     {label}
 
                     {required && (
-                        <span className="required">*</span>
+                        <span className="required">
+                            *
+                        </span>
                     )}
                 </label>
             )}
 
             <select
                 id={name}
-                className={`form-select ${error ? "is-invalid" : ""}`}
+                className={`form-select ${
+                    error ? "is-invalid" : ""
+                }`}
                 disabled={disabled}
                 {...register(name)}
             >
@@ -32,39 +44,50 @@ function Select({
                     Selecione...
                 </option>
 
-                {options.map((option) => {
-                    /*
-                     * Permite trabalhar tanto com:
-                     *
-                     * ["Dell", "Lenovo"]
-                     *
-                     * quanto com:
-                     *
-                     * [
-                     *   { value: "dell", label: "Dell" }
-                     * ]
-                     */
+                {Array.isArray(options) &&
+                    options.map((option, index) => {
 
-                    if (typeof option === "object") {
+                        /*
+                         * Suporta:
+                         *
+                         * ["Dell", "Lenovo", "HP"]
+                         *
+                         * ou:
+                         *
+                         * [
+                         *   {
+                         *      value: "dell",
+                         *      label: "Dell"
+                         *   }
+                         * ]
+                         */
+
+                        if (
+                            typeof option === "object" &&
+                            option !== null
+                        ) {
+                            return (
+                                <option
+                                    key={
+                                        option.value ??
+                                        index
+                                    }
+                                    value={option.value}
+                                >
+                                    {option.label}
+                                </option>
+                            );
+                        }
+
                         return (
                             <option
-                                key={option.value}
-                                value={option.value}
+                                key={`${option}-${index}`}
+                                value={option}
                             >
-                                {option.label}
+                                {option}
                             </option>
                         );
-                    }
-
-                    return (
-                        <option
-                            key={option}
-                            value={option}
-                        >
-                            {option}
-                        </option>
-                    );
-                })}
+                    })}
             </select>
 
             {error && (

@@ -7,12 +7,22 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import "./assets/styles/global.css";
 
+import { RegistroProvider } from "./context/RegistroContext";
+
 import App from "./App";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(
+    document.getElementById("root")
+).render(
     <React.StrictMode>
+
         <BrowserRouter>
-            <App />
+
+            <RegistroProvider>
+                <App />
+            </RegistroProvider>
+
         </BrowserRouter>
+
     </React.StrictMode>
 );

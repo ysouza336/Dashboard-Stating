@@ -1,44 +1,48 @@
 export const options = {
-
     tipo: [
         "Notebook",
         "Desktop",
-        "Monitor",
-        "Celular",
-        "Tablet",
-        "Coletor",
-        "Impressora",
-        "Outro"
+        "Monitor"
+    ],
+
+    marca: [
+        "Dell",
+        "Lenovo",
+        "HP",
+        "Apple"
+    ],
+
+    solicitadoPor: [
+        "Usuário",
+        "Gestor",
+        "TI"
+    ],
+
+    tipoStaging: [
+        "Novo equipamento",
+        "Reinstalação",
+        "Troca"
+    ],
+
+    escopoStaging: [
+        "Completo",
+        "Parcial"
+    ],
+
+    localStaging: [
+        "São Paulo",
+        "Rio de Janeiro"
+    ],
+
+    responsavel: [
+        "TI",
+        "Infraestrutura",
+        "Suporte"
     ],
 
     status: [
         "Pendente",
-        "Em Andamento",
+        "Em andamento",
         "Concluído"
-    ],
-
-    tipoStaging: [
-
-    ],
-
-    escopoStaging: [
-
-    ],
-
-    localStaging: [
-
-    ],
-
-    responsavel: [
-
-    ],
-
-    solicitadoPor: [
-
-    ],
-
-    marca: [
-
     ]
-
 };
