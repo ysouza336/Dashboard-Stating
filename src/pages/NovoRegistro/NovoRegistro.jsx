@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import DynamicForm from "../../components/DynamicForm/DynamicForm";
 import formSections from "../../data/formSections";
 
@@ -7,6 +10,11 @@ import { useRegistros } from "../../context/RegistroContext";
 
 function NovoRegistro() {
 
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const registroEmEdicao = location.state?.registro;
+
     const {
         register,
         handleSubmit,
@@ -14,25 +22,70 @@ function NovoRegistro() {
         formState: { errors }
     } = useRegistroForm();
 
-    const { adicionarRegistro } = useRegistros();
+    const {
+        adicionarRegistro,
+        atualizarRegistro
+    } = useRegistros();
+
+    useEffect(() => {
+
+        if (registroEmEdicao) {
+
+            reset(registroEmEdicao);
+
+        }
+
+    }, [registroEmEdicao, reset]);
 
     function salvarRegistro(data) {
 
-        const novoRegistro = adicionarRegistro(data);
+        if (registroEmEdicao) {
 
-        console.log("Registro cadastrado:", novoRegistro);
+            atualizarRegistro(
+                registroEmEdicao.id,
+                data
+            );
+
+            console.log(
+                "Registro atualizado:",
+                {
+                    ...registroEmEdicao,
+                    ...data
+                }
+            );
+
+        } else {
+
+            const novoRegistro = adicionarRegistro(data);
+
+            console.log(
+                "Registro cadastrado:",
+                novoRegistro
+            );
+
+        }
 
         reset();
+
+        navigate("/relatorios");
+
     }
 
     return (
         <div>
 
             <h2 className="mb-4">
-                Novo Registro
+
+                {registroEmEdicao
+                    ? "Editar Registro"
+                    : "Novo Registro"
+                }
+
             </h2>
 
-            <form onSubmit={handleSubmit(salvarRegistro)}>
+            <form
+                onSubmit={handleSubmit(salvarRegistro)}
+            >
 
                 <DynamicForm
                     sections={formSections}
@@ -46,7 +99,10 @@ function NovoRegistro() {
                         type="submit"
                         className="btn btn-primary"
                     >
-                        Salvar Registro
+                        {registroEmEdicao
+                            ? "Salvar Alterações"
+                            : "Salvar Registro"
+                        }
                     </button>
 
                 </div>

@@ -6,9 +6,10 @@ function Input({
     type = "text",
     placeholder = "",
     required = false,
-    disabled = false,
     register,
-    error
+    error,
+    disabled = false,
+    ...props
 }) {
     return (
         <div className="input-container">
@@ -30,13 +31,15 @@ function Input({
 
             <input
                 id={name}
+                name={name}
                 type={type}
-                className={`form-control ${
-                    error ? "is-invalid" : ""
-                }`}
                 placeholder={placeholder}
                 disabled={disabled}
+                className={`form-select ${
+                    error ? "is-invalid" : ""
+                }`}
                 {...register(name)}
+                {...props}
             />
 
             {error && (

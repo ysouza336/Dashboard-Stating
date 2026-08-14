@@ -1,126 +1,128 @@
-import "./Relatorios.css";
+import { useRegistros } from "../../context/RegistroContext";
+import { useNavigate } from "react-router-dom";
 
 function Relatorios() {
 
-    return (
+    const { registros } = useRegistros();
+    const navigate = useNavigate();
 
-        <div className="container-fluid">
+    function editarRegistro(registro) {
+    navigate("/novo", {
+        state: {
+            registro
+        }
+    });
+}
+
+    return (
+        <div>
 
             <div className="d-flex justify-content-between align-items-center mb-4">
 
-                <div>
+                <h2>
+                    Relatórios
+                </h2>
 
-                    <h2>Relatórios</h2>
-
-                    <p className="text-muted mb-0">
-                        Consulte e exporte os registros cadastrados.
-                    </p>
-
-                </div>
-
-                <button className="btn btn-success">
-                    Exportar Excel
-                </button>
+                <span className="badge bg-secondary">
+                    {registros.length} registro(s)
+                </span>
 
             </div>
 
-            <div className="card shadow-sm">
+            {registros.length === 0 ? (
 
-                <div className="card-body">
+                <div className="alert alert-info">
+                    Nenhum registro cadastrado.
+                </div>
 
-                    <div className="row mb-4">
+            ) : (
 
-                        <div className="col-md-3">
+                <div className="table-responsive">
 
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Patrimônio"
-                            />
+                    <table className="table table-striped table-hover align-middle">
 
-                        </div>
+                        <thead>
 
-                        <div className="col-md-3">
+                            <tr>
+                                <th>Patrimônio</th>
+                                <th>Serial</th>
+                                <th>Tipo</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Status</th>
+                                <th>Responsável</th>
+                                <th>Data Solicitação</th>
+                                <th>Ações</th>
+                            </tr>
 
-                            <select className="form-select">
+                        </thead>
 
-                                <option value="">
-                                    Status
-                                </option>
+                        <tbody>
 
-                                <option>Pendente</option>
-                                <option>Em andamento</option>
-                                <option>Concluído</option>
+                            {registros.map((registro) => (
 
-                            </select>
+                                <tr key={registro.id}>
 
-                        </div>
+                                    <td>
+                                        {registro.patrimonio || "-"}
+                                    </td>
 
-                        <div className="col-md-3">
+                                    <td>
+                                        {registro.serial || "-"}
+                                    </td>
 
-                            <input
-                                type="date"
-                                className="form-control"
-                            />
+                                    <td>
+                                        {registro.tipo || "-"}
+                                    </td>
 
-                        </div>
+                                    <td>
+                                        {registro.marca || "-"}
+                                    </td>
 
-                        <div className="col-md-3">
+                                    <td>
+                                        {registro.modelo || "-"}
+                                    </td>
 
-                            <button className="btn btn-primary w-100">
-                                Filtrar
-                            </button>
+                                    <td>
+                                        {registro.status || "-"}
+                                    </td>
 
-                        </div>
+                                    <td>
+                                        {registro.responsavel || "-"}
+                                    </td>
 
-                    </div>
+                                    <td>
+                                        {registro.dataSolicitacao || "-"}
+                                    </td>
 
-                    <div className="table-responsive">
+                                    <td>
 
-                        <table className="table table-hover table-striped align-middle">
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>Patrimônio</th>
-                                    <th>Serial</th>
-                                    <th>Tipo</th>
-                                    <th>Responsável</th>
-                                    <th>Status</th>
-                                    <th>Data</th>
-                                    <th>Ações</th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                <tr>
-
-                                    <td colSpan="7" className="text-center text-muted">
-
-                                        Nenhum registro encontrado.
+                                        <button
+                                            type="button"
+                                            className="btn btn-sm btn-primary"
+                                            onClick={() =>
+                                                editarRegistro(registro)
+                                            }
+                                        >
+                                            Editar
+                                        </button>
 
                                     </td>
 
                                 </tr>
 
-                            </tbody>
+                            ))}
 
-                        </table>
+                        </tbody>
 
-                    </div>
+                    </table>
 
                 </div>
 
-            </div>
+            )}
 
         </div>
-
     );
-
 }
 
 export default Relatorios;

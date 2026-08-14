@@ -1,41 +1,25 @@
-import "./DateInput.css";
+import Input from "../Input";
 
 function DateInput({
     label,
     name,
+    register,
+    error,
     required = false,
     disabled = false,
-    register,
-    error
+    ...props
 }) {
     return (
-        <div className="input-container">
-
-            {label && (
-                <label htmlFor={name} className="form-label">
-                    {label}
-
-                    {required && (
-                        <span className="required">*</span>
-                    )}
-                </label>
-            )}
-
-            <input
-                id={name}
-                type="date"
-                className={`form-control ${error ? "is-invalid" : ""}`}
-                disabled={disabled}
-                {...register(name)}
-            />
-
-            {error && (
-                <div className="invalid-feedback">
-                    {error.message}
-                </div>
-            )}
-
-        </div>
+        <Input className="input-container required invalid-feedback form-select"
+            {...props}
+            label={label}
+            name={name}
+            type="date"
+            required={required}
+            disabled={disabled}
+            register={register}
+            error={error}
+        />
     );
 }
 
