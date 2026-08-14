@@ -1,5 +1,6 @@
 import Input from "../Input";
 
+
 function DateInput({
     label,
     name,
@@ -10,7 +11,7 @@ function DateInput({
     ...props
 }) {
     return (
-        <Input className="input-container required invalid-feedback form-select"
+        <Input className="input-container invalid-feedback form-select"
             {...props}
             label={label}
             name={name}
