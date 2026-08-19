@@ -1,10 +1,31 @@
 import { createContext, useContext, useState } from "react";
 
+
+const [mensagem, setMensagem] = useState(null);
+
 const RegistroContext = createContext();
 
 export function RegistroProvider({ children }) {
 
+    function mostrarMensagem(type, message) {
+
+        setMensagem({
+            type,
+            message
+        });
+
+    }
+    function limparMensagem() {
+
+        setMensagem(null);
+
+    }
+
     const [registros, setRegistros] = useState([]);
+
+    // =====================================================
+    // ADICIONAR REGISTRO
+    // =====================================================
 
     function adicionarRegistro(dados) {
 
@@ -22,19 +43,42 @@ export function RegistroProvider({ children }) {
         return novoRegistro;
     }
 
+    // =====================================================
+    // ATUALIZAR REGISTRO
+    // =====================================================
+
     function atualizarRegistro(id, dadosAtualizados) {
 
-        setRegistros((registrosAtuais) =>
-            registrosAtuais.map((registro) =>
-                registro.id === id
-                    ? {
-                        ...registro,
-                        ...dadosAtualizados
-                    }
-                    : registro
-            )
-        );
+        let registroAtualizado = null;
+
+        setRegistros((registrosAtuais) => {
+
+            const novosRegistros = registrosAtuais.map((registro) => {
+
+                if (registro.id !== id) {
+                    return registro;
+                }
+
+                registroAtualizado = {
+                    ...registro,
+                    ...dadosAtualizados,
+                    id: registro.id,
+                    criadoEm: registro.criadoEm,
+                    atualizadoEm: new Date().toISOString()
+                };
+
+                return registroAtualizado;
+            });
+
+            return novosRegistros;
+        });
+
+        return registroAtualizado;
     }
+
+    // =====================================================
+    // REMOVER REGISTRO
+    // =====================================================
 
     function removerRegistro(id) {
 
@@ -45,13 +89,21 @@ export function RegistroProvider({ children }) {
         );
     }
 
+    // =====================================================
+    // PROVIDER
+    // =====================================================
+
     return (
         <RegistroContext.Provider
             value={{
                 registros,
                 adicionarRegistro,
                 atualizarRegistro,
-                removerRegistro
+                removerRegistro,
+                mensagem,
+                mostrarMensagem,
+                limparMensagem
+
             }}
         >
             {children}
@@ -59,14 +111,20 @@ export function RegistroProvider({ children }) {
     );
 }
 
+// =========================================================
+// HOOK
+// =========================================================
+
 export function useRegistros() {
 
     const context = useContext(RegistroContext);
 
     if (!context) {
+
         throw new Error(
             "useRegistros deve ser utilizado dentro de RegistroProvider."
         );
+
     }
 
     return context;

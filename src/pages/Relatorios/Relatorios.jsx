@@ -3,16 +3,48 @@ import { useNavigate } from "react-router-dom";
 
 function Relatorios() {
 
-    const { registros } = useRegistros();
+    const {
+        registros,
+        removerRegistro
+    } = useRegistros();
+
     const navigate = useNavigate();
 
+    // =====================================================
+    // EDITAR REGISTRO
+    // =====================================================
+
     function editarRegistro(registro) {
-    navigate("/novo", {
-        state: {
-            registro
+
+        navigate("/novo", {
+            state: {
+                registro
+            }
+        });
+
+    }
+
+    // =====================================================
+    // EXCLUIR REGISTRO
+    // =====================================================
+
+    function excluirRegistro(registro) {
+
+        const confirmar = window.confirm(
+            `Deseja realmente excluir o registro do patrimônio ${registro.patrimonio || "selecionado"}?`
+        );
+
+        if (!confirmar) {
+            return;
         }
-    });
-}
+
+        removerRegistro(registro.id);
+
+    }
+
+    // =====================================================
+    // INTERFACE
+    // =====================================================
 
     return (
         <div>
@@ -97,15 +129,33 @@ function Relatorios() {
 
                                     <td>
 
-                                        <button
-                                            type="button"
-                                            className="btn btn-sm btn-primary"
-                                            onClick={() =>
-                                                editarRegistro(registro)
-                                            }
-                                        >
-                                            Editar
-                                        </button>
+                                        <div className="d-flex gap-2">
+
+                                            {/* EDITAR */}
+
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm btn-primary"
+                                                onClick={() =>
+                                                    editarRegistro(registro)
+                                                }
+                                            >
+                                                Editar
+                                            </button>
+
+                                            {/* EXCLUIR */}
+
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm btn-danger"
+                                                onClick={() =>
+                                                    excluirRegistro(registro)
+                                                }
+                                            >
+                                                Excluir
+                                            </button>
+
+                                        </div>
 
                                     </td>
 
