@@ -1,26 +1,62 @@
-function Dashboard(){
+import { useRegistros } from "../../context/RegistroContext";
+import "./Dashboard.css";
 
-    return(
+function Dashboard() {
 
-        <>
+    const { registros } = useRegistros();
 
-            <h2 className="mb-4">
+    // ==============================
+    // MÉTRICAS
+    // ==============================
 
-                Dashboard
+    const totalRegistros = registros.length;
 
-            </h2>
+    const pendentes = registros.filter(
+        (registro) => registro.status === "Pendente"
+    ).length;
 
-            <div className="row">
+    const emAndamento = registros.filter(
+        (registro) => registro.status === "Em andamento"
+    ).length;
 
-                <div className="col-md-4">
+    const concluidos = registros.filter(
+        (registro) => registro.status === "Concluído"
+    ).length;
 
-                    <div className="card shadow-sm">
+    return (
+        <div className="dashboard-container">
 
-                        <div className="card-body">
+            {/* Cabeçalho */}
 
-                            <h5>Total Equipamentos</h5>
+            <div className="dashboard-header mb-4">
 
-                            <h1>452</h1>
+                <h2 className="mb-1">
+                    Dashboard
+                </h2>
+
+                <p className="text-muted mb-0">
+                    Visão geral do processo de staging dos equipamentos.
+                </p>
+
+            </div>
+
+            {/* Cards */}
+
+            <div className="row g-4">
+
+                <div className="col-xl-3 col-md-6">
+
+                    <div className="metric-card border-primary">
+
+                        <div className="metric-icon bg-primary-subtle">
+                            📦
+                        </div>
+
+                        <div>
+
+                            <span>Total de Registros</span>
+
+                            <h3>{totalRegistros}</h3>
 
                         </div>
 
@@ -28,15 +64,19 @@ function Dashboard(){
 
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-xl-3 col-md-6">
 
-                    <div className="card shadow-sm">
+                    <div className="metric-card border-secondary">
 
-                        <div className="card-body">
+                        <div className="metric-icon bg-secondary-subtle">
+                            ⏳
+                        </div>
 
-                            <h5>Em andamento</h5>
+                        <div>
 
-                            <h1>37</h1>
+                            <span>Pendentes</span>
+
+                            <h3>{pendentes}</h3>
 
                         </div>
 
@@ -44,15 +84,39 @@ function Dashboard(){
 
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-xl-3 col-md-6">
 
-                    <div className="card shadow-sm">
+                    <div className="metric-card border-warning">
 
-                        <div className="card-body">
+                        <div className="metric-icon bg-warning-subtle">
+                            🛠️
+                        </div>
 
-                            <h5>Concluídos</h5>
+                        <div>
 
-                            <h1>415</h1>
+                            <span>Em andamento</span>
+
+                            <h3>{emAndamento}</h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div className="col-xl-3 col-md-6">
+
+                    <div className="metric-card border-success">
+
+                        <div className="metric-icon bg-success-subtle">
+                            ✅
+                        </div>
+
+                        <div>
+
+                            <span>Concluídos</span>
+
+                            <h3>{concluidos}</h3>
 
                         </div>
 
@@ -62,10 +126,126 @@ function Dashboard(){
 
             </div>
 
-        </>
+            {/* Próximos widgets */}
 
-    )
+            <div className="row mt-4 g-4">
 
+                <div className="col-lg-8">
+
+                    <div className="dashboard-card">
+
+                        <h5 className="mb-3">
+                            Últimos registros cadastrados
+                        </h5>
+
+                        {registros.length === 0 ? (
+
+                            <p className="text-muted mb-0">
+                                Nenhum registro cadastrado até o momento.
+                            </p>
+
+                        ) : (
+
+                            <table className="table table-hover align-middle mb-0">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Patrimônio</th>
+                                        <th>Tipo</th>
+                                        <th>Status</th>
+                                        <th>Responsável</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    {registros
+                                        .slice(-5)
+                                        .reverse()
+                                        .map((registro) => (
+
+                                            <tr key={registro.id}>
+
+                                                <td>{registro.patrimonio}</td>
+
+                                                <td>{registro.tipo}</td>
+
+                                                <td>{registro.status}</td>
+
+                                                <td>{registro.responsavel}</td>
+
+                                            </tr>
+
+                                        ))}
+
+                                </tbody>
+
+                            </table>
+
+                        )}
+
+                    </div>
+
+                </div>
+
+                <div className="col-lg-4">
+
+                    <div className="dashboard-card">
+
+                        <h5 className="mb-3">
+                            Resumo
+                        </h5>
+
+                        <ul className="list-group list-group-flush">
+
+                            <li className="list-group-item d-flex justify-content-between">
+                                <span>Notebook</span>
+
+                                <strong>
+                                    {
+                                        registros.filter(
+                                            (registro) => registro.tipo === "Notebook"
+                                        ).length
+                                    }
+                                </strong>
+                            </li>
+
+                            <li className="list-group-item d-flex justify-content-between">
+                                <span>Desktop</span>
+
+                                <strong>
+                                    {
+                                        registros.filter(
+                                            (registro) => registro.tipo === "Desktop"
+                                        ).length
+                                    }
+                                </strong>
+                            </li>
+
+                            <li className="list-group-item d-flex justify-content-between">
+                                <span>Monitor</span>
+
+                                <strong>
+                                    {
+                                        registros.filter(
+                                            (registro) => registro.tipo === "Monitor"
+                                        ).length
+                                    }
+                                </strong>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    );
 }
 
 export default Dashboard;

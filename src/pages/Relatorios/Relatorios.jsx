@@ -216,7 +216,6 @@ function Relatorios() {
             {/* =====================================================
                 MODAL DE CONFIRMAÇÃO
             ====================================================== */}
-
             <ConfirmModal
                 open={modalOpen}
                 title="Confirmar exclusão"
