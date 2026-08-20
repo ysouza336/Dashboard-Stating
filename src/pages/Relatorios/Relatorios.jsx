@@ -1,14 +1,25 @@
-import { useRegistros } from "../../context/RegistroContext";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useRegistros } from "../../context/RegistroContext";
+import ConfirmModal from "../../components/ConfirmModal";
 
 function Relatorios() {
 
     const {
         registros,
-        removerRegistro
+        removerRegistro,
+        mostrarMensagem
     } = useRegistros();
 
     const navigate = useNavigate();
+
+    // =====================================================
+    // ESTADOS DO MODAL
+    // =====================================================
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [registroSelecionado, setRegistroSelecionado] = useState(null);
 
     // =====================================================
     // EDITAR REGISTRO
@@ -25,37 +36,74 @@ function Relatorios() {
     }
 
     // =====================================================
-    // EXCLUIR REGISTRO
+    // ABRIR MODAL DE EXCLUSÃO
     // =====================================================
 
-    function excluirRegistro(registro) {
+    function abrirModalExclusao(registro) {
 
-        const confirmar = window.confirm(
-            `Deseja realmente excluir o registro do patrimônio ${registro.patrimonio || "selecionado"}?`
-        );
-
-        if (!confirmar) {
-            return;
-        }
-
-        removerRegistro(registro.id);
+        setRegistroSelecionado(registro);
+        setModalOpen(true);
 
     }
 
     // =====================================================
-    // INTERFACE
+    // CONFIRMAR EXCLUSÃO
+    // =====================================================
+
+    function confirmarExclusao() {
+
+        if (!registroSelecionado) return;
+
+        removerRegistro(registroSelecionado.id);
+
+        mostrarMensagem(
+            "success",
+            `Registro do patrimônio ${registroSelecionado.patrimonio} excluído com sucesso.`
+        );
+
+        setModalOpen(false);
+        setRegistroSelecionado(null);
+
+    }
+
+    // =====================================================
+    // CANCELAR EXCLUSÃO
+    // =====================================================
+
+    function cancelarExclusao() {
+
+        setModalOpen(false);
+        setRegistroSelecionado(null);
+
+    }
+
+    // =====================================================
+    // FORMATAR DATA
+    // =====================================================
+
+    function formatarData(data) {
+
+        if (!data) return "-";
+
+        const [ano, mes, dia] = data.split("-");
+
+        return `${dia}/${mes}/${ano}`;
+
+    }
+
+    // =====================================================
+    // RETORNO
     // =====================================================
 
     return (
+
         <div>
 
             <div className="d-flex justify-content-between align-items-center mb-4">
 
-                <h2>
-                    Relatórios
-                </h2>
+                <h2>Relatórios</h2>
 
-                <span className="badge bg-secondary">
+                <span className="badge bg-secondary fs-6">
                     {registros.length} registro(s)
                 </span>
 
@@ -73,7 +121,7 @@ function Relatorios() {
 
                     <table className="table table-striped table-hover align-middle">
 
-                        <thead>
+                        <thead className="table-dark">
 
                             <tr>
                                 <th>Patrimônio</th>
@@ -84,7 +132,7 @@ function Relatorios() {
                                 <th>Status</th>
                                 <th>Responsável</th>
                                 <th>Data Solicitação</th>
-                                <th>Ações</th>
+                                <th width="180">Ações</th>
                             </tr>
 
                         </thead>
@@ -95,37 +143,35 @@ function Relatorios() {
 
                                 <tr key={registro.id}>
 
-                                    <td>
-                                        {registro.patrimonio || "-"}
-                                    </td>
+                                    <td>{registro.patrimonio || "-"}</td>
+
+                                    <td>{registro.serial || "-"}</td>
+
+                                    <td>{registro.tipo || "-"}</td>
+
+                                    <td>{registro.marca || "-"}</td>
+
+                                    <td>{registro.modelo || "-"}</td>
 
                                     <td>
-                                        {registro.serial || "-"}
+
+                                        <span
+                                            className={`badge ${
+                                                registro.status === "Concluído"
+                                                    ? "bg-success"
+                                                    : registro.status === "Em andamento"
+                                                    ? "bg-warning text-dark"
+                                                    : "bg-secondary"
+                                            }`}
+                                        >
+                                            {registro.status || "-"}
+                                        </span>
+
                                     </td>
 
-                                    <td>
-                                        {registro.tipo || "-"}
-                                    </td>
+                                    <td>{registro.responsavel || "-"}</td>
 
-                                    <td>
-                                        {registro.marca || "-"}
-                                    </td>
-
-                                    <td>
-                                        {registro.modelo || "-"}
-                                    </td>
-
-                                    <td>
-                                        {registro.status || "-"}
-                                    </td>
-
-                                    <td>
-                                        {registro.responsavel || "-"}
-                                    </td>
-
-                                    <td>
-                                        {registro.dataSolicitacao || "-"}
-                                    </td>
+                                    <td>{formatarData(registro.dataSolicitacao)}</td>
 
                                     <td>
 
@@ -136,9 +182,7 @@ function Relatorios() {
                                             <button
                                                 type="button"
                                                 className="btn btn-sm btn-primary"
-                                                onClick={() =>
-                                                    editarRegistro(registro)
-                                                }
+                                                onClick={() => editarRegistro(registro)}
                                             >
                                                 Editar
                                             </button>
@@ -148,9 +192,7 @@ function Relatorios() {
                                             <button
                                                 type="button"
                                                 className="btn btn-sm btn-danger"
-                                                onClick={() =>
-                                                    excluirRegistro(registro)
-                                                }
+                                                onClick={() => abrirModalExclusao(registro)}
                                             >
                                                 Excluir
                                             </button>
@@ -171,8 +213,26 @@ function Relatorios() {
 
             )}
 
+            {/* =====================================================
+                MODAL DE CONFIRMAÇÃO
+            ====================================================== */}
+
+            <ConfirmModal
+                open={modalOpen}
+                title="Confirmar exclusão"
+                message={
+                    registroSelecionado
+                        ? `Deseja realmente excluir o patrimônio ${registroSelecionado.patrimonio}?`
+                        : ""
+                }
+                onCancel={cancelarExclusao}
+                onConfirm={confirmarExclusao}
+            />
+
         </div>
+
     );
+
 }
 
 export default Relatorios;

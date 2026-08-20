@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import DynamicForm from "../../components/DynamicForm/DynamicForm";
@@ -8,14 +8,12 @@ import useRegistroForm from "../../hooks/useRegistroForm";
 
 import { useRegistros } from "../../context/RegistroContext";
 
-import Alert from "../../components/Alert/Alert";
-
 function NovoRegistro() {
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Registro recebido através da tela de Relatórios
+    // Registro recebido da tela de Relatórios
     const registroEmEdicao = location.state?.registro;
 
     const {
@@ -27,7 +25,8 @@ function NovoRegistro() {
 
     const {
         adicionarRegistro,
-        atualizarRegistro
+        atualizarRegistro,
+        mostrarMensagem
     } = useRegistros();
 
     // =====================================================
@@ -37,56 +36,44 @@ function NovoRegistro() {
     useEffect(() => {
 
         if (registroEmEdicao) {
-
             reset(registroEmEdicao);
-
         }
 
     }, [registroEmEdicao, reset]);
 
     // =====================================================
-    // SALVAR
+    // SALVAR REGISTRO
     // =====================================================
 
-function salvarRegistro(data) {
+    function salvarRegistro(data) {
 
-    if (registroEmEdicao) {
+        if (registroEmEdicao) {
 
-        const registroAtualizado = atualizarRegistro(
-            registroEmEdicao.id,
-            data
-        );
+            atualizarRegistro(registroEmEdicao.id, data);
 
-        console.log(
-            "Registro atualizado:",
-            registroAtualizado
-        );
+            mostrarMensagem(
+                "success",
+                `Registro do patrimônio ${registroEmEdicao.patrimonio} atualizado com sucesso.`
+            );
 
-        setMensagem({
-            type: "success",
-            message: "Registro atualizado com sucesso."
-        });
+        } else {
 
-    } else {
+            const novoRegistro = adicionarRegistro(data);
 
-        const novoRegistro = adicionarRegistro(data);
+            mostrarMensagem(
+                "success",
+                `Registro do patrimônio ${novoRegistro.patrimonio} cadastrado com sucesso.`
+            );
 
-        console.log(
-            "Registro cadastrado:",
-            novoRegistro
-        );
+        }
 
-        setMensagem({
-            type: "success",
-            message: "Registro cadastrado com sucesso."
-        });
+        // Limpa formulário
+        reset();
+
+        // Retorna para relatórios
+        navigate("/relatorios");
 
     }
-
-    reset();
-
-    // navigate("/relatorios");
-}
 
     // =====================================================
     // INTERFACE
@@ -95,18 +82,17 @@ function salvarRegistro(data) {
     return (
         <div>
 
-            <h2 className="mb-4">
+            <div className="d-flex justify-content-between align-items-center mb-4">
 
-                {registroEmEdicao
-                    ? "Editar Registro"
-                    : "Novo Registro"
-                }
+                <h2>
+                    {registroEmEdicao
+                        ? "Editar Registro"
+                        : "Novo Registro"}
+                </h2>
 
-            </h2>
+            </div>
 
-            <form
-                onSubmit={handleSubmit(salvarRegistro)}
-            >
+            <form onSubmit={handleSubmit(salvarRegistro)}>
 
                 <DynamicForm
                     sections={formSections}
@@ -118,14 +104,11 @@ function salvarRegistro(data) {
 
                     <button
                         type="submit"
-                        className="btn btn-primary"
+                        className="btn btn-primary px-4"
                     >
-
                         {registroEmEdicao
                             ? "Salvar Alterações"
-                            : "Salvar Registro"
-                        }
-
+                            : "Salvar Registro"}
                     </button>
 
                 </div>
