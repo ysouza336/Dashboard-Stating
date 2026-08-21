@@ -1,0 +1,15 @@
+.dashboard-chart-card{
+
+    background:#FFF;
+    border-radius:18px;
+    padding:24px;
+
+    box-shadow:0 4px 20px rgba(15,23,42,.08);
+
+    height:100%;
+}
+
+.dashboard-chart-card h5{
+    font-weight:600;
+    color:#1F2937;
+}

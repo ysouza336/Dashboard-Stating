@@ -1,46 +1,36 @@
 import { NavLink } from "react-router-dom";
-
-import {
-    FaHome,
-    FaPlusCircle,
-    FaClipboardList,
-    FaCog
-} from "react-icons/fa";
-
 import "./Sidebar.css";
 
 function Sidebar() {
-
     return (
-
         <aside className="sidebar">
 
-            <h4 className="logo">
-                STAGING
-            </h4>
+            <div className="sidebar-logo">
+                <h3>Controle Staging</h3>
+                <span>Gestão de Equipamentos</span>
+            </div>
 
-            <NavLink to="/">
-                <FaHome />
-                Dashboard
-            </NavLink>
+            <nav className="sidebar-menu">
 
-            <NavLink to="/novo">
-                <FaPlusCircle />
-                Novo Registro
-            </NavLink>
+                <NavLink to="/" end className="sidebar-link">
+                    📊 <span>Dashboard</span>
+                </NavLink>
 
-            <NavLink to="/relatorios">
-                <FaClipboardList />
-                Relatórios
-            </NavLink>
+                <NavLink to="/novo" className="sidebar-link">
+                    ➕ <span>Novo Registro</span>
+                </NavLink>
 
-            <NavLink to="/configuracoes">
-                <FaCog />
-                Configurações
-            </NavLink>
+                <NavLink to="/relatorios" className="sidebar-link">
+                    📋 <span>Relatórios</span>
+                </NavLink>
+
+                <NavLink to="/configuracoes" className="sidebar-link">
+                    ⚙️ <span>Configurações</span>
+                </NavLink>
+
+            </nav>
 
         </aside>
-
     );
 }
 

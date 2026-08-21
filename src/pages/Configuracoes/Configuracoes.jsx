@@ -1,74 +1,59 @@
-import "./Configuracoes.css";
+import { useRegistros } from "../../context/RegistroContext";
 
 function Configuracoes() {
-    return (
-        <div className="container-fluid">
 
-            <div className="page-header">
-                <h2>Configurações</h2>
-                <p className="text-muted">
-                    Gerencie as configurações do sistema.
-                </p>
-            </div>
+    const {
+        registros,
+        mostrarMensagem
+    } = useRegistros();
+
+    function limparBancoLocal() {
+
+        const confirmar = window.confirm(
+            "Deseja apagar TODOS os registros salvos neste navegador?"
+        );
+
+        if (!confirmar) return;
+
+        localStorage.removeItem("controle-staging-registros");
+
+        window.location.reload();
+
+    }
+
+    return (
+
+        <div>
+
+            <h2 className="mb-4">
+                Configurações
+            </h2>
 
             <div className="card shadow-sm">
 
                 <div className="card-body">
 
-                    <h5 className="mb-4">
-                        Configurações Gerais
-                    </h5>
+                    <h5>Armazenamento Local</h5>
 
-                    <div className="row">
+                    <p className="text-muted">
+                        Atualmente existem <strong>{registros.length}</strong> registros salvos neste navegador.
+                    </p>
 
-                        <div className="col-md-6 mb-3">
-
-                            <label className="form-label">
-                                Nome da Empresa
-                            </label>
-
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Digite o nome da empresa"
-                            />
-
-                        </div>
-
-                        <div className="col-md-6 mb-3">
-
-                            <label className="form-label">
-                                Responsável
-                            </label>
-
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Digite o responsável"
-                            />
-
-                        </div>
-
-                    </div>
-
-                    <hr />
-
-                    <div className="d-flex justify-content-end">
-
-                        <button
-                            className="btn btn-primary"
-                        >
-                            Salvar Configurações
-                        </button>
-
-                    </div>
+                    <button
+                        className="btn btn-danger"
+                        onClick={limparBancoLocal}
+                    >
+                        Limpar Banco Local
+                    </button>
 
                 </div>
 
             </div>
 
         </div>
+
     );
+
 }
 
 export default Configuracoes;

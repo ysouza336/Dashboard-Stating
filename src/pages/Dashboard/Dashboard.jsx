@@ -1,4 +1,5 @@
 import { useRegistros } from "../../context/RegistroContext";
+import DashboardChart from "../../components/DashboardChart/DashboardChart"
 import "./Dashboard.css";
 
 function Dashboard() {
@@ -22,6 +23,21 @@ function Dashboard() {
     const concluidos = registros.filter(
         (registro) => registro.status === "Concluído"
     ).length;
+
+    const dadosStatus = [
+        {
+            name: "Pendente",
+            value: pendentes
+        },
+        {
+            name: "Em andamento",
+            value: emAndamento
+        },
+        {
+            name: "Concluído",
+            value: concluidos
+        }
+    ];
 
     return (
         <div className="dashboard-container">
@@ -118,6 +134,74 @@ function Dashboard() {
 
                             <h3>{concluidos}</h3>
 
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+             {/* GRAFICOS */}
+
+            <div className="row g-4 mt-2">
+
+                <div className="col-lg-6">
+
+                    <DashboardChart
+                        data={dadosStatus}
+                    />
+
+                </div>
+
+                <div className="col-lg-6">
+
+                    <div className="dashboard-card">
+
+                        <h5 className="mb-4">
+                            Resumo Geral
+                        </h5>
+
+                        <div className="d-flex justify-content-between mb-3">
+                            <span>Percentual concluído</span>
+
+                            <strong>
+                                {totalRegistros === 0
+                                    ? 0
+                                    : Math.round(
+                                        (concluidos / totalRegistros) * 100
+                                    )
+                                }%
+                            </strong>
+                        </div>
+
+                        <div className="progress mb-4">
+
+                            <div
+                                className="progress-bar bg-success"
+                                style={{
+                                    width: `${
+                                        totalRegistros === 0
+                                            ? 0
+                                            : (concluidos / totalRegistros) * 100
+                                    }%`
+                                }}
+                            />
+
+                        </div>
+
+                        <div className="d-flex justify-content-between mb-2">
+                            <span>Pendentes</span>
+                            <strong>{pendentes}</strong>
+                        </div>
+
+                        <div className="d-flex justify-content-between mb-2">
+                            <span>Em andamento</span>
+                            <strong>{emAndamento}</strong>
+                        </div>
+
+                        <div className="d-flex justify-content-between">
+                            <span>Concluídos</span>
+                            <strong>{concluidos}</strong>
                         </div>
 
                     </div>

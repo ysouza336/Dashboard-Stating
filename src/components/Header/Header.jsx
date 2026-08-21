@@ -1,25 +1,62 @@
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./Header.css";
 
-function Header(){
+const titulos = {
+  "/": "Dashboard",
+  "/novo": "Novo Registro",
+  "/relatorios": "Relatórios",
+  "/configuracoes": "Configurações"
+};
 
-    return(
+function Header() {
+  const location = useLocation();
+  const [dataHora, setDataHora] = useState("");
 
-        <header className="header">
+  useEffect(() => {
+    const atualizar = () => {
+      const agora = new Date();
 
-            <h3>
-                Controle de Staging
-            </h3>
+      setDataHora(
+        agora.toLocaleString("pt-BR", {
+          dateStyle: "short",
+          timeStyle: "short"
+        })
+      );
+    };
 
-            <div>
+    atualizar();
 
-                Bem-vindo, Yuri
+    const timer = setInterval(atualizar, 60000);
 
-            </div>
+    return () => clearInterval(timer);
+  }, []);
 
-        </header>
+  return (
+    <header className="header">
 
-    )
+      <div>
+        <h4>{titulos[location.pathname] || "Controle Staging"}</h4>
+        <span>{dataHora}</span>
+      </div>
 
+      <div className="header-actions">
+
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Pesquisar (em breve)"
+          disabled
+        />
+
+        <div className="user-avatar">
+          YS
+        </div>
+
+      </div>
+
+    </header>
+  );
 }
 
 export default Header;

@@ -1,0 +1,1 @@
+export { exportarRegistrosExcel } from "./ExcelService";
