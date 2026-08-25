@@ -6,6 +6,14 @@ const registroSchema = z.object({
         .string()
         .min(1, "Informe o patrimônio."),
 
+    hostname: z
+        .string()
+        .min(1, "Informe o hostname."),
+
+    serviceTag: z
+        .string()
+        .min(1, "Service Tag obrigatória."),
+
     serial: z
         .string()
         .min(1, "Informe o serial."),

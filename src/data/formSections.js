@@ -7,6 +7,23 @@ const formSections = [
 
         fields: [
             {
+                name: "hostname",
+                label: "Hostname (AD)",
+                component: "input",
+                type: "text",
+                placeholder: "BRXXX7JX9KQ3",
+                required: true,
+                col: 4
+            },
+            {
+                name: "serviceTag",
+                label: "Service Tag",
+                component: "input",
+                type: "text",
+                readOnly: true,
+                col: 4
+            },
+            {
                 name: "patrimonio",
                 label: "Patrimônio",
                 component: "input",

@@ -6,6 +6,8 @@ import formSections from "../../data/formSections";
 
 import useRegistroForm from "../../hooks/useRegistroForm";
 
+import { parseHostname } from "../../utils/hostnameParser";
+
 import { useRegistros } from "../../context/RegistroContext";
 
 function NovoRegistro() {
@@ -16,11 +18,13 @@ function NovoRegistro() {
     // Registro recebido da tela de Relatórios
     const registroEmEdicao = location.state?.registro;
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors }
+   const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    formState: { errors }
     } = useRegistroForm();
 
     const {
@@ -42,10 +46,36 @@ function NovoRegistro() {
     }, [registroEmEdicao, reset]);
 
     // =====================================================
+    // HOSTNAME
+    // =====================================================
+
+  
+        const hostname = watch("hostname");
+
+        useEffect(() => {
+
+            const { hostname: hostFormatado, serviceTag } = parseHostname(hostname);
+
+            if (hostname !== hostFormatado) {
+                setValue("hostname", hostFormatado);
+            }
+
+            setValue("serviceTag", serviceTag);
+
+        }, [hostname, setValue]);
+
+
+
+    // =====================================================
     // SALVAR REGISTRO
     // =====================================================
 
     function salvarRegistro(data) {
+
+        const resultado = parseHostname(data.hostname);
+
+        data.hostname = resultado.hostname;
+        data.serviceTag = resultado.serviceTag;
 
         if (registroEmEdicao) {
 
@@ -57,6 +87,11 @@ function NovoRegistro() {
             );
 
         } else {
+
+            const dadosHostname = parseHostname(data.hostname);
+
+            data.hostname = dadosHostname.hostname;
+            data.serviceTag = dadosHostname.serviceTag;
 
             const novoRegistro = adicionarRegistro(data);
 

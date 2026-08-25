@@ -28,6 +28,10 @@ function Sidebar() {
                     ⚙️ <span>Configurações</span>
                 </NavLink>
 
+                <NavLink to="/auditoria" className="sidebar-link">
+                    📋 <span>Auditoria</span>
+                </NavLink>
+
             </nav>
 
         </aside>

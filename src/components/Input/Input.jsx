@@ -4,42 +4,32 @@ function Input({
     label,
     name,
     type = "text",
-    placeholder = "",
+    placeholder,
     required = false,
     register,
     error,
     disabled = false,
-    ...props
+    readOnly = false
 }) {
+
     return (
-        <div className="input-container">
+        <div className="mb-3">
 
             {label && (
-                <label
-                    htmlFor={name}
-                    className="form-label"
-                >
+                <label htmlFor={name} className="form-label">
                     {label}
-
-                    {required && (
-                        <span className="required">
-                            *
-                        </span>
-                    )}
+                    {required && <span className="required">*</span>}
                 </label>
             )}
 
             <input
                 id={name}
-                name={name}
                 type={type}
                 placeholder={placeholder}
                 disabled={disabled}
-                className={`form-select ${
-                    error ? "is-invalid" : ""
-                }`}
+                readOnly={readOnly}
+                className={`form-control ${error ? "is-invalid" : ""}`}
                 {...register(name)}
-                {...props}
             />
 
             {error && (

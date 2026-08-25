@@ -1,9 +1,9 @@
 import {
+    ResponsiveContainer,
     PieChart,
     Pie,
     Cell,
     Tooltip,
-    ResponsiveContainer,
     Legend
 } from "recharts";
 
@@ -19,37 +19,46 @@ function DashboardChart({ data }) {
 
     return (
 
-        <div className="dashboard-chart-card">
+        <div className="dashboard-chart">
 
-            <h5 className="mb-4">
-                Equipamentos por Status
-            </h5>
+            <div className="dashboard-chart-header">
 
-            <ResponsiveContainer width="100%" height={300}>
+                <h5>Status dos Equipamentos</h5>
+
+                <span>Atualização em tempo real</span>
+
+            </div>
+
+            <ResponsiveContainer
+                width="100%"
+                height={320}
+            >
 
                 <PieChart>
 
                     <Pie
                         data={data}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={90}
-                        label
                         dataKey="value"
+                        nameKey="name"
+                        outerRadius={110}
+                        innerRadius={55}
+                        paddingAngle={3}
                     >
 
-                        {data.map((entry, index) => (
+                        {data.map((item, index) => (
+
                             <Cell
-                                key={entry.name}
-                                fill={COLORS[index % COLORS.length]}
+                                key={item.name}
+                                fill={COLORS[index]}
                             />
+
                         ))}
 
                     </Pie>
 
                     <Tooltip />
 
-                    <Legend />
+                    <Legend verticalAlign="bottom"/>
 
                 </PieChart>
 

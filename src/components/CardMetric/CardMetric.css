@@ -1,50 +1,48 @@
+
 .card-metric{
     background:#FFFFFF;
     border-radius:18px;
-    padding:20px;
-
-    display:flex;
-    align-items:center;
-    gap:18px;
-
-    box-shadow:0 6px 20px rgba(15,23,42,.08);
-
+    padding:24px;
     transition:.25s;
     border:1px solid #E5E7EB;
 }
 
 .card-metric:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 28px rgba(15,23,42,.12);
+    transform:translateY(-4px);
 }
 
-.card-metric-icon{
-    width:64px;
-    height:64px;
+.metric-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
 
-    border-radius:16px;
+.metric-icon{
+    width:52px;
+    height:52px;
+    border-radius:12px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    font-size:28px;
+    color:#FFF;
+    font-size:24px;
 }
 
-.card-metric-info{
-    display:flex;
-    flex-direction:column;
-}
-
-.card-metric-title{
-    font-size:14px;
+.card-metric h6{
     color:#64748B;
-    margin-bottom:4px;
+    margin-bottom:8px;
+    font-weight:600;
 }
 
-.card-metric-value{
+.card-metric h2{
     margin:0;
-    font-size:30px;
+    color:#0F172A;
     font-weight:700;
-    color:#1E293B;
 }
+
+.card-metric small{
+    color:#94A3B8;
+}
+

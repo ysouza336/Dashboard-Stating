@@ -1,15 +1,29 @@
-.dashboard-chart-card{
-
-    background:#FFF;
+.dashboard-chart{
+    background:#FFFFFF;
     border-radius:18px;
     padding:24px;
 
-    box-shadow:0 4px 20px rgba(15,23,42,.08);
+    border:1px solid #E5E7EB;
+    box-shadow:0 4px 18px rgba(15,23,42,.05);
 
     height:100%;
 }
 
-.dashboard-chart-card h5{
+.dashboard-chart-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:16px;
+}
+
+.dashboard-chart-header h5{
+    margin:0;
     font-weight:600;
-    color:#1F2937;
+    color:#0F172A;
+}
+
+.dashboard-chart-header span{
+    font-size:13px;
+    color:#64748B;
 }

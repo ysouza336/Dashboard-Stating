@@ -1,0 +1,43 @@
+.modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:1050;
+}
+
+.modal-import{
+    background:#FFF;
+    width:500px;
+    max-width:90%;
+    padding:24px;
+    border-radius:16px;
+}
+
+.arquivo{
+    margin-top:10px;
+    color:#2563EB;
+    font-weight:600;
+}
+.preview-table{
+    max-height:220px;
+    overflow:auto;
+    margin-top:12px;
+}
+.preview-table{
+    max-height:240px;
+    overflow-y:auto;
+}
+
+.progress{
+    height:8px;
+    border-radius:999px;
+}
+
+.progress-bar{
+    border-radius:999px;
+}

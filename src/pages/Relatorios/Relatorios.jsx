@@ -6,6 +6,8 @@ import ConfirmModal from "../../components/ConfirmModal";
 
 import { exportarRegistrosExcel } from "../../services";
 
+import ImportExcelModal from "../../components/ImportExcelModal/ImportExcelModal";
+
 function Relatorios() {
 
     const {
@@ -19,6 +21,9 @@ function Relatorios() {
     // ==========================================
     // ESTADOS
     // ==========================================
+
+    const [importModalOpen, setImportModalOpen] = useState(false);
+    const [previewImportacao, setPreviewImportacao] = useState([]);
 
     const [modalOpen, setModalOpen] = useState(false);
     const [registroSelecionado, setRegistroSelecionado] = useState(null);
@@ -88,6 +93,7 @@ function Relatorios() {
         cancelarExclusao();
 
     }
+
 
     // ==========================================
     // PESQUISA + FILTROS
@@ -281,6 +287,13 @@ function Relatorios() {
                         onClick={exportarExcel}
                     >
                         📥 Exportar Excel
+                    </button>
+
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => setImportModalOpen(true)}
+                    >
+                        Importar Excel
                     </button>
 
                 </div>
@@ -677,6 +690,15 @@ function Relatorios() {
                 onCancel={cancelarExclusao}
                 onConfirm={confirmarExclusao}
             />
+            <ImportExcelModal
+                open={importModalOpen}
+                onClose={() => setImportModalOpen(false)}
+                onPreview={(dados) => {
+                    console.log("Prévia da planilha:", dados);
+                    setPreviewImportacao(dados);
+                }}
+            />
+            
 
         </div>
 

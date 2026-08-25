@@ -1,0 +1,12 @@
+.recent-activity{
+    background:#FFF;
+    border-radius:18px;
+    padding:24px;
+    border:1px solid #E5E7EB;
+    box-shadow:0 4px 18px rgba(15,23,42,.05);
+}
+
+.recent-activity h5{
+    margin-bottom:20px;
+    font-weight:600;
+}

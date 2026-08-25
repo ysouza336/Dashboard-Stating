@@ -8,7 +8,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./assets/styles/global.css";
 
 import { RegistroProvider } from "./context/RegistroContext";
-
+import { AuditoriaProvider } from "./context/AuditoriaContext";
 import App from "./App";
 
 ReactDOM.createRoot(
@@ -17,11 +17,11 @@ ReactDOM.createRoot(
     <React.StrictMode>
 
         <BrowserRouter>
-
-            <RegistroProvider>
-                <App />
-            </RegistroProvider>
-
+            <AuditoriaProvider>
+                <RegistroProvider>
+                    <App />
+                </RegistroProvider>
+            </AuditoriaProvider>
         </BrowserRouter>
 
     </React.StrictMode>

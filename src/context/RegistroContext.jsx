@@ -1,83 +1,50 @@
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState
-} from "react";
+
+import { createContext, useContext, useEffect, useState } from "react";
+import { useAuditoria } from "./AuditoriaContext";
 
 const RegistroContext = createContext();
 
-const STORAGE_KEY = "controle-staging-registros";
-
 export function RegistroProvider({ children }) {
 
-    // =====================================================
-    // ESTADOS
-    // =====================================================
+    const { adicionarLog } = useAuditoria();
 
-    // Carrega os registros salvos do navegador ao iniciar o sistema.
+    // ==============================
+    // ESTADO DOS REGISTROS
+    // ==============================
+
     const [registros, setRegistros] = useState(() => {
-
-        try {
-
-            const dadosSalvos = localStorage.getItem(STORAGE_KEY);
-
-            return dadosSalvos
-                ? JSON.parse(dadosSalvos)
-                : [];
-
-        } catch (error) {
-
-            console.error(
-                "Erro ao carregar registros do LocalStorage:",
-                error
-            );
-
-            return [];
-
-        }
-
+        const dados = localStorage.getItem("staging_registros");
+        return dados ? JSON.parse(dados) : [];
     });
 
-    // Alerta global do sistema.
     const [mensagem, setMensagem] = useState(null);
 
-    // =====================================================
-    // LOCAL STORAGE
-    // =====================================================
-
-    // Sempre que os registros forem alterados, salva automaticamente.
     useEffect(() => {
-
         localStorage.setItem(
-            STORAGE_KEY,
+            "staging_registros",
             JSON.stringify(registros)
         );
-
     }, [registros]);
 
-    // =====================================================
+    // ==============================
     // ALERTAS
-    // =====================================================
+    // ==============================
 
-    function mostrarMensagem(type, message) {
+    function mostrarMensagem(tipo, texto) {
+        setMensagem({ tipo, texto });
 
-        setMensagem({
-            type,
-            message
-        });
-
+        setTimeout(() => {
+            setMensagem(null);
+        }, 3000);
     }
 
     function limparMensagem() {
-
         setMensagem(null);
-
     }
 
-    // =====================================================
-    // CADASTRAR REGISTRO
-    // =====================================================
+    // ==============================
+    // CADASTRAR
+    // ==============================
 
     function adicionarRegistro(dados) {
 
@@ -88,122 +55,170 @@ export function RegistroProvider({ children }) {
             atualizadoEm: null
         };
 
-        setRegistros((listaAtual) => [
-            ...listaAtual,
-            novoRegistro
-        ]);
+        setRegistros((lista) => [...lista, novoRegistro]);
+
+        adicionarLog({
+            acao: "Equipamento cadastrado",
+            patrimonio: novoRegistro.patrimonio,
+            hostname: novoRegistro.hostname,
+            detalhes: `${novoRegistro.tipo} ${novoRegistro.marca} ${novoRegistro.modelo}`
+        });
+
+        mostrarMensagem(
+            "success",
+            "Equipamento cadastrado com sucesso."
+        );
 
         return novoRegistro;
-
     }
 
-    // =====================================================
-    // ATUALIZAR REGISTRO
-    // =====================================================
+    // ==============================
+    // EDITAR
+    // ==============================
 
     function atualizarRegistro(id, dadosAtualizados) {
 
-        setRegistros((listaAtual) =>
-            listaAtual.map((registro) => {
+        setRegistros((lista) =>
+            lista.map((registro) => {
 
-                if (registro.id !== id) {
-                    return registro;
+                if (registro.id !== id) return registro;
+
+                if (
+                    registro.status !== dadosAtualizados.status
+                ) {
+                    adicionarLog({
+                        acao: "Status alterado",
+                        patrimonio: registro.patrimonio,
+                        hostname: registro.hostname,
+                        detalhes: `${registro.status} → ${dadosAtualizados.status}`
+                    });
                 }
+
+                adicionarLog({
+                    acao: "Equipamento atualizado",
+                    patrimonio: registro.patrimonio,
+                    hostname: registro.hostname,
+                    detalhes: "Dados do equipamento atualizados."
+                });
 
                 return {
                     ...registro,
                     ...dadosAtualizados,
-                    id: registro.id,
-                    criadoEm: registro.criadoEm,
                     atualizadoEm: new Date().toISOString()
                 };
 
             })
         );
 
+        mostrarMensagem(
+            "success",
+            "Equipamento atualizado com sucesso."
+        );
     }
 
-    // =====================================================
-    // REMOVER REGISTRO
-    // =====================================================
+    // ==============================
+    // EXCLUIR
+    // ==============================
 
     function removerRegistro(id) {
 
-        setRegistros((listaAtual) =>
-            listaAtual.filter(
-                (registro) => registro.id !== id
-            )
+        const registro = registros.find((r) => r.id === id);
+
+        if (registro) {
+            adicionarLog({
+                acao: "Equipamento removido",
+                patrimonio: registro.patrimonio,
+                hostname: registro.hostname,
+                detalhes: `${registro.tipo} ${registro.marca} removido do sistema`
+            });
+        }
+
+        setRegistros((lista) =>
+            lista.filter((registro) => registro.id !== id)
         );
 
+        mostrarMensagem(
+            "success",
+            "Equipamento removido com sucesso."
+        );
     }
 
-    // =====================================================
-    // LIMPAR TODOS OS REGISTROS
-    // (Usado futuramente em Configurações)
-    // =====================================================
+    // ==============================
+    // IMPORTAÇÃO EM MASSA
+    // ==============================
+
+    function importarRegistros(listaRegistros) {
+
+        const novos = listaRegistros.map((registro) => ({
+            id: crypto.randomUUID(),
+            ...registro,
+            criadoEm: new Date().toISOString(),
+            atualizadoEm: null
+        }));
+
+        setRegistros((lista) => [...lista, ...novos]);
+
+        adicionarLog({
+            acao: "Importação em massa",
+            detalhes: `${novos.length} equipamentos importados via Excel`
+        });
+
+        mostrarMensagem(
+            "success",
+            `${novos.length} registros importados.`
+        );
+    }
+
+    // ==============================
+    // LIMPAR REGISTROS
+    // ==============================
 
     function limparRegistros() {
 
         setRegistros([]);
-        localStorage.removeItem(STORAGE_KEY);
+
+        adicionarLog({
+            acao: "Base de equipamentos limpa",
+            detalhes: "Todos os registros foram removidos."
+        });
 
         mostrarMensagem(
-            "success",
-            "Todos os registros foram removidos com sucesso."
+            "warning",
+            "Todos os registros foram apagados."
         );
-
     }
 
-    // =====================================================
-    // PROVIDER
-    // =====================================================
-
     return (
-
         <RegistroContext.Provider
             value={{
-
-                // Dados
                 registros,
 
-                // CRUD
                 adicionarRegistro,
                 atualizarRegistro,
                 removerRegistro,
+                importarRegistros,
                 limparRegistros,
 
-                // Alertas
                 mensagem,
                 mostrarMensagem,
                 limparMensagem
-
             }}
         >
-
             {children}
-
         </RegistroContext.Provider>
-
     );
-
 }
-
-// =====================================================
-// HOOK CUSTOMIZADO
-// =====================================================
 
 export function useRegistros() {
 
     const context = useContext(RegistroContext);
 
     if (!context) {
-
         throw new Error(
             "useRegistros deve ser utilizado dentro de RegistroProvider."
         );
-
     }
 
     return context;
-
 }
+
