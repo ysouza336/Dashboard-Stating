@@ -1,3 +1,4 @@
+
 export function parseHostname(valor) {
 
     if (!valor) {
@@ -7,12 +8,15 @@ export function parseHostname(valor) {
         };
     }
 
-    // Remove espaços e converte para maiúsculo
-    const hostname = valor.trim().toUpperCase();
+    const hostname = valor
+        .trim()
+        .toUpperCase();
 
-    // Remove tudo antes dos últimos 7 caracteres
-    // Service Tag Dell possui 7 caracteres.
-    const serviceTag = hostname.slice(-7);
+    // Dell Service Tag possui 7 caracteres.
+    const serviceTag =
+        hostname.length >= 7
+            ? hostname.slice(-7)
+            : hostname;
 
     return {
         hostname,

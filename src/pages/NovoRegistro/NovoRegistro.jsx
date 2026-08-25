@@ -45,6 +45,7 @@ function NovoRegistro() {
 
     }, [registroEmEdicao, reset]);
 
+
     // =====================================================
     // HOSTNAME
     // =====================================================
@@ -132,6 +133,7 @@ function NovoRegistro() {
                 <DynamicForm
                     sections={formSections}
                     register={register}
+                    watch={watch}
                     errors={errors}
                 />
 

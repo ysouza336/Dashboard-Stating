@@ -4,6 +4,7 @@ import FormField from "../FormField/FormField";
 function DynamicForm({
     sections,
     register,
+    watch,
     errors
 }) {
     return (
@@ -27,6 +28,7 @@ function DynamicForm({
                                 <FormField
                                     field={field}
                                     register={register}
+                                    watch={watch}
                                     error={errors?.[field.name]}
                                 />
 

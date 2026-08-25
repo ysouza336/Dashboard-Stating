@@ -18,9 +18,7 @@ const formSections = [
             {
                 name: "serviceTag",
                 label: "Service Tag",
-                component: "input",
-                type: "text",
-                readOnly: true,
+                component: "serviceTag",
                 col: 4
             },
             {

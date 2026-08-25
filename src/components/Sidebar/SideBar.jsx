@@ -1,36 +1,80 @@
+
 import { NavLink } from "react-router-dom";
+
+import {
+    LayoutDashboard,
+    PlusSquare,
+    FileSpreadsheet,
+    Sheet,
+    ShieldCheck
+} from "lucide-react";
+
 import "./Sidebar.css";
 
 function Sidebar() {
+
+    const menu = [
+        {
+            label: "Dashboard",
+            path: "/",
+            icon: LayoutDashboard
+        },
+        {
+            label: "Novo Registro",
+            path: "/novo",
+            icon: PlusSquare
+        },
+        {
+            label: "Relatórios",
+            path: "/relatorios",
+            icon: FileSpreadsheet
+        },
+        {
+            label: "Importar Excel",
+            path: "/importar",
+            icon: Sheet
+        },
+        {
+            label: "Auditoria",
+            path: "/auditoria",
+            icon: ShieldCheck
+        }
+    ];
+
     return (
         <aside className="sidebar">
 
-            <div className="sidebar-logo">
-                <h3>Controle Staging</h3>
-                <span>Gestão de Equipamentos</span>
+            <div className="sidebar-brand">
+
+                <h4>Controle Staging</h4>
+
+                <span>v1.0 Beta</span>
+
             </div>
 
             <nav className="sidebar-menu">
 
-                <NavLink to="/" end className="sidebar-link">
-                    📊 <span>Dashboard</span>
-                </NavLink>
+                {menu.map((item) => {
 
-                <NavLink to="/novo" className="sidebar-link">
-                    ➕ <span>Novo Registro</span>
-                </NavLink>
+                    const Icon = item.icon;
 
-                <NavLink to="/relatorios" className="sidebar-link">
-                    📋 <span>Relatórios</span>
-                </NavLink>
+                    return (
+                        <NavLink
+                            key={item.path}
+                            to={item.path}
+                            end={item.path === "/"}
+                            className={({ isActive }) =>
+                                `sidebar-link ${isActive ? "active" : ""}`
+                            }
+                        >
+                            <Icon size={20} />
 
-                <NavLink to="/configuracoes" className="sidebar-link">
-                    ⚙️ <span>Configurações</span>
-                </NavLink>
+                            <span>{item.label}</span>
 
-                <NavLink to="/auditoria" className="sidebar-link">
-                    📋 <span>Auditoria</span>
-                </NavLink>
+                        </NavLink>
+                    );
+
+                })}
 
             </nav>
 
@@ -39,3 +83,4 @@ function Sidebar() {
 }
 
 export default Sidebar;
+

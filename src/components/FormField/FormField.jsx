@@ -2,10 +2,14 @@ import Input from "../Input";
 import Select from "../Select";
 import TextArea from "../TextArea";
 import DateInput from "../DateInput";
+import ServiceTagInput from "../ServiceTagInput";
+
+
 
 function FormField({
     field,
     register,
+    watch,
     error
 }) {
     if (!field) {
@@ -21,6 +25,15 @@ function FormField({
                     register={register}
                     error={error}
                 />
+            );
+        case "serviceTag": 
+            return ( 
+                <ServiceTagInput 
+                    {...field}
+                    register={register}
+                    error={error}
+                    value={watch("serviceTag")}  
+                /> 
             );
 
         case "select":

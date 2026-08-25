@@ -13,23 +13,77 @@ function Auditoria() {
 
     const [pesquisa, setPesquisa] = useState("");
 
-    const logsFiltrados = useMemo(() => {
+    
+    const [filtroAcao, setFiltroAcao] = useState("Todos");
+    const [filtroPeriodo, setFiltroPeriodo] = useState("Todos");
 
-        const texto = pesquisa.toLowerCase();
+   
+    const listaAcoes = [
+        "Todos",
+        "Equipamento cadastrado",
+        "Equipamento atualizado",
+        "Status alterado",
+        "Equipamento removido",
+        "Importação em massa"
+    ];
+
+ 
+    const logsFiltrados = useMemo(() => {
 
         return logs.filter((log) => {
 
-            return (
+            const texto = pesquisa.toLowerCase();
+
+            const pesquisaValida =
                 log.acao.toLowerCase().includes(texto) ||
                 log.usuario.toLowerCase().includes(texto) ||
                 log.patrimonio.toLowerCase().includes(texto) ||
                 log.hostname.toLowerCase().includes(texto) ||
-                log.detalhes.toLowerCase().includes(texto)
-            );
+                log.detalhes.toLowerCase().includes(texto);
+
+            const acaoValida =
+                filtroAcao === "Todos"
+                    ? true
+                    : log.acao === filtroAcao;
+
+            const dataLog = new Date(log.data);
+            const hoje = new Date();
+
+            let periodoValido = true;
+
+            if (filtroPeriodo === "Hoje") {
+
+                periodoValido =
+                    dataLog.toLocaleDateString("pt-BR") ===
+                    hoje.toLocaleDateString("pt-BR");
+
+            }
+
+            if (filtroPeriodo === "7 dias") {
+
+                const seteDias = new Date();
+                seteDias.setDate(hoje.getDate() - 7);
+
+                periodoValido = dataLog >= seteDias;
+
+            }
+
+            if (filtroPeriodo === "30 dias") {
+
+                const trintaDias = new Date();
+                trintaDias.setDate(hoje.getDate() - 30);
+
+                periodoValido = dataLog >= trintaDias;
+
+            }
+
+            return pesquisaValida && acaoValida && periodoValido;
 
         });
 
-    }, [logs, pesquisa]);
+    }, [logs, pesquisa, filtroAcao, filtroPeriodo]);
+
+
 
     function formatarData(data) {
 
@@ -45,6 +99,32 @@ function Auditoria() {
         return hoje === dataLog;
 
     }).length;
+
+   
+    const metricas = useMemo(() => {
+
+        return {
+
+            total: logs.length,
+
+            hoje: logs.filter((log) =>
+                new Date(log.data).toLocaleDateString("pt-BR") ===
+                new Date().toLocaleDateString("pt-BR")
+            ).length,
+
+            cadastro: logs.filter((log) =>
+                log.acao === "Equipamento cadastrado"
+            ).length,
+
+            exclusao: logs.filter((log) =>
+                log.acao === "Equipamento removido"
+            ).length
+
+        };
+
+    }, [logs]);
+
+
 
     return (
 
@@ -66,27 +146,52 @@ function Auditoria() {
 
             {/* Cards */}
 
+        
             <div className="row g-4 mb-4">
 
-                <div className="col-md-6">
+                <div className="col-lg-3 col-md-6">
 
-                    <div className="audit-card">
+                    <div className="audit-card card-blue">
 
-                        <span>Total de Eventos</span>
+                        <span>Total Eventos</span>
 
-                        <h2>{logs.length}</h2>
+                        <h2>{metricas.total}</h2>
 
                     </div>
 
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-lg-3 col-md-6">
 
-                    <div className="audit-card">
+                    <div className="audit-card card-green">
 
                         <span>Eventos Hoje</span>
 
-                        <h2>{eventosHoje}</h2>
+                        <h2>{metricas.hoje}</h2>
+
+                    </div>
+
+                </div>
+
+                <div className="col-lg-3 col-md-6">
+
+                    <div className="audit-card card-orange">
+
+                        <span>Cadastros</span>
+
+                        <h2>{metricas.cadastro}</h2>
+
+                    </div>
+
+                </div>
+
+                <div className="col-lg-3 col-md-6">
+
+                    <div className="audit-card card-red">
+
+                        <span>Exclusões</span>
+
+                        <h2>{metricas.exclusao}</h2>
 
                     </div>
 
@@ -94,21 +199,60 @@ function Auditoria() {
 
             </div>
 
-            {/* Pesquisa */}
 
-            <div className="audit-search mb-4">
-
-                <Search size={18}/>
+            {/* BARRA DE FILTROS */}
+            <div className="audit-filters mb-4">
 
                 <input
                     type="text"
-                    className="form-control"
-                    placeholder="Pesquisar patrimônio, hostname, usuário, ação..."
+                    className="form-control "
+                    placeholder="Pesquisar patrimônio, hostname, usuário..."
                     value={pesquisa}
-                    onChange={(e) =>
-                        setPesquisa(e.target.value)
-                    }
+                    onChange={(e) => setPesquisa(e.target.value)}
                 />
+
+                <select
+                    className="form-select "
+                    value={filtroAcao}
+                    onChange={(e) => setFiltroAcao(e.target.value)}
+                >
+
+                    {listaAcoes.map((acao) => (
+                        <option
+                            key={acao}
+                            value={acao}
+                        >
+                            {acao}
+                        </option>
+                    ))}
+
+                </select>
+
+                <select
+                    className="form-select "
+                    value={filtroPeriodo}
+                    onChange={(e) => setFiltroPeriodo(e.target.value)}
+                >
+
+                    <option>Todos</option>
+                    <option>Hoje</option>
+                    <option>7 dias</option>
+                    <option>30 dias</option>
+
+                </select>
+
+                <button
+                    className="btn btn-outline-secondary"
+                    onClick={() => {
+
+                        setPesquisa("");
+                        setFiltroAcao("Todos");
+                        setFiltroPeriodo("Todos");
+
+                    }}
+                >
+                    Limpar
+                </button>
 
             </div>
 
