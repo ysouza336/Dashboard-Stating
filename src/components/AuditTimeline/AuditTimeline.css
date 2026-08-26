@@ -1,0 +1,47 @@
+
+.audit-timeline{
+
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+
+}
+
+.timeline-group{
+
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+
+}
+
+.timeline-date{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#EFF6FF;
+
+    border-left:5px solid #2563EB;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+}
+
+.timeline-date span{
+
+    font-weight:700;
+
+    color:#1E40AF;
+
+}
+
+.timeline-date small{
+
+    color:#64748B;
+
+}
+

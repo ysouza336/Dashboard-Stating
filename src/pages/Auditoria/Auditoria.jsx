@@ -4,6 +4,11 @@ import { Search } from "lucide-react";
 
 import { useAuditoria } from "../../context/AuditoriaContext";
 import AuditBadge from "../../components/AuditBadge/AuditBadge";
+import AuditTimeline from "../../components/AuditTimeline";
+
+import { exportarRegistrosExcel } from "../../services/ExcelService";
+
+
 
 import "./Auditoria.css";
 
@@ -13,6 +18,7 @@ function Auditoria() {
 
     const [pesquisa, setPesquisa] = useState("");
 
+    const [visualizacao, setVisualizacao] = useState("tabela");
     
     const [filtroAcao, setFiltroAcao] = useState("Todos");
     const [filtroPeriodo, setFiltroPeriodo] = useState("Todos");
@@ -83,7 +89,15 @@ function Auditoria() {
 
     }, [logs, pesquisa, filtroAcao, filtroPeriodo]);
 
-
+    <segmented-control
+        block
+        options={[
+            { label: "Tabela", value: "tabela" },
+            { label: "Timeline", value: "timeline" }
+        ]}
+        value={visualizacao}
+        onChange={setVisualizacao}
+    />
 
     function formatarData(data) {
 
@@ -124,12 +138,63 @@ function Auditoria() {
 
     }, [logs]);
 
+    
+        function exportarAuditoria() {
 
+            exportarRegistrosExcel({
+
+                dados: logsFiltrados,
+
+                nomeArquivo:
+                    `AUDITORIA_${
+                        new Date()
+                            .toLocaleDateString("pt-BR")
+                            .replace(/\//g, "-")
+                    }`,
+
+                colunas: [
+
+                    {
+                        titulo:"Data/Hora",
+                        campo:"data"
+                    },
+
+                    {
+                        titulo:"Usuário",
+                        campo:"usuario"
+                    },
+
+                    {
+                        titulo:"Ação",
+                        campo:"acao"
+                    },
+
+                    {
+                        titulo:"Patrimônio",
+                        campo:"patrimonio"
+                    },
+
+                    {
+                        titulo:"Hostname",
+                        campo:"hostname"
+                    },
+
+                    {
+                        titulo:"Detalhes",
+                        campo:"detalhes"
+                    }
+
+                ]
+
+            });
+
+        }
 
     return (
 
         <div className="auditoria-page">
 
+            
             <div className="auditoria-header">
 
                 <div>
@@ -137,12 +202,21 @@ function Auditoria() {
                     <h2>Auditoria do Sistema</h2>
 
                     <p>
-                        Histórico global de todas as ações realizadas.
+                        Histórico global das ações realizadas no sistema.
                     </p>
 
                 </div>
 
+                <button
+                    className="btn btn-success"
+                    onClick={exportarAuditoria}
+                >
+                    Exportar Excel
+                </button>
+
             </div>
+
+
 
             {/* Cards */}
 
@@ -252,6 +326,33 @@ function Auditoria() {
                     }}
                 >
                     Limpar
+                </button>
+
+            </div>
+            {/* TIMELINE */}
+
+            <div className="audit-view-switch">
+
+                <button
+                    className={
+                        visualizacao === "tabela"
+                            ? "active"
+                            : ""
+                    }
+                    onClick={() => setVisualizacao("tabela")}
+                >
+                    Tabela
+                </button>
+
+                <button
+                    className={
+                        visualizacao === "timeline"
+                            ? "active"
+                            : ""
+                    }
+                    onClick={() => setVisualizacao("timeline")}
+                >
+                    Timeline
                 </button>
 
             </div>
