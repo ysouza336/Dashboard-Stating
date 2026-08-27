@@ -1,5 +1,5 @@
 
-import AuditEvent from "../AuditEvent";
+import AuditEvent from "../AuditEvent/AuditEvent";
 
 import "./AuditTimeline.css";
 

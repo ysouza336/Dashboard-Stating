@@ -3,13 +3,17 @@ import { useMemo } from "react";
 
 import {
     Boxes,
-    CheckCircle,
     Clock3,
-    LoaderCircle
+    LoaderCircle, 
+    Laptop,
+    CheckCircle,
+    AlertTriangle
 } from "lucide-react";
 
 import DashboardChart from "../../components/DashboardChart/DashboardChart";
 import { useRegistros } from "../../context/RegistroContext";
+
+import MetricCard from "../../ui/MetricCard/MetricCard";
 import CardMetric from "../../components/CardMetric";
 
 import RecentActivity from "../../components/RecentActivity/RecentActivity";
@@ -84,51 +88,45 @@ function Dashboard() {
             {/* CARDS */}
             {/* ======================================= */}
 
-
+                
                 <div className="col-lg-3 col-md-6">
-
-                    <CardMetric
+                   <MetricCard
                         title="Total Equipamentos"
-                        value={dashboard.total}
-                        subtitle="Equipamentos cadastrados"
-                        color="#2563EB"
-                        icon={<Boxes size={26}/>}
+                        value={registros.length}
+                        icon={Laptop}
+                        color="primary"
                     />
-
                 </div>
 
                 <div className="col-lg-3 col-md-6">
 
-                    <CardMetric
+                   <MetricCard
                         title="Concluídos"
                         value={dashboard.concluidos}
-                        subtitle="Staging finalizado"
-                        color="#16A34A"
-                        icon={<CheckCircle size={26}/>}
+                        icon={CheckCircle}
+                        color="success"
                     />
 
                 </div>
 
                 <div className="col-lg-3 col-md-6">
 
-                    <CardMetric
+                   <MetricCard
                         title="Em Andamento"
                         value={dashboard.andamento}
-                        subtitle="Em preparação"
-                        color="#F59E0B"
-                        icon={<LoaderCircle size={26}/>}
+                        icon={Clock3}
+                        color="warning"
                     />
 
                 </div>
 
                 <div className="col-lg-3 col-md-6">
 
-                    <CardMetric
+                   <MetricCard
                         title="Pendentes"
                         value={dashboard.pendentes}
-                        subtitle="Aguardando início"
-                        color="#64748B"
-                        icon={<Clock3 size={26}/>}
+                        icon={AlertTriangle}
+                        color="danger"
                     />
 
                 </div>
