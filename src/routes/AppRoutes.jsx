@@ -6,6 +6,9 @@ import MainLayout from "../layout/MainLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import NovoRegistro from "../pages/NovoRegistro/NovoRegistro";
 import Relatorios from "../pages/Relatorios/Relatorios";
+import PrivateRoute from "./PrivateRoute";
+import PermissionGate from "./PermissionGate";
+import Usuarios from "../pages/Usuarios/Usuarios";
 // import ImportarExcel from "../pages/ImportarExcel/ImportarExcel";
 import Auditoria from "../pages/Auditoria/Auditoria";
 
@@ -14,26 +17,18 @@ function AppRoutes() {
     return (
 
         <Routes>
-            <Route element={<MainLayout />}>
+            <Route element={<PrivateRoute />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/relatorios" element={<Relatorios />} />
+                <Route path="/novo-registro" element={<NovoRegistro />} />
+
                 <Route
-                    path="/"
-                    element={<Dashboard />}
-                />
-                <Route
-                    path="/novo"
-                    element={<NovoRegistro />}
-                />
-                <Route
-                    path="/relatorios"
-                    element={<Relatorios />}
-                />
-                {/* <Route
-                    path="/importar"
-                    element={<ImportarExcel />}
-                /> */}
-                <Route
-                    path="/auditoria"
-                    element={<Auditoria />}
+                    path="/usuarios"
+                    element={
+                        <PermissionGate allow={["Administrador"]}>
+                            <Usuarios />
+                        </PermissionGate>
+                    }
                 />
             </Route>
         </Routes>

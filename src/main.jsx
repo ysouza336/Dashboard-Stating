@@ -15,14 +15,14 @@ ReactDOM.createRoot(
     document.getElementById("root")
 ).render(
     <React.StrictMode>
-
-        <BrowserRouter>
-            <AuditoriaProvider>
-                <RegistroProvider>
-                    <App />
-                </RegistroProvider>
-            </AuditoriaProvider>
-        </BrowserRouter>
-
+        <AutoProvider>
+            <BrowserRouter>
+                <AuditoriaProvider>
+                    <RegistroProvider>
+                        <App />
+                    </RegistroProvider>
+                </AuditoriaProvider>
+            </BrowserRouter>
+        </AutoProvider>
     </React.StrictMode>
 );

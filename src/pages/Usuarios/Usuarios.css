@@ -1,0 +1,358 @@
+/* ==========================================================
+   CONTROLE STAGING V2.0 BETA
+   BUILD 004 - MÓDULO DE USUÁRIOS
+   Arquivo completo
+========================================================== */
+
+/* =========================
+   Página
+========================= */
+
+.usuarios-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =========================
+   Barra de Pesquisa
+========================= */
+
+.usuarios-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.usuarios-toolbar .search-input {
+  flex: 1;
+  min-width: 260px;
+}
+
+/* =========================
+   Cards de Métricas
+========================= */
+
+.metricas-usuarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
+}
+
+/* =========================
+   Card da tabela
+========================= */
+
+.usuarios-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.usuarios-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  background: var(--surface-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.usuarios-card-header h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* =========================
+   Status do usuário
+========================= */
+
+.status-ativo,
+.status-inativo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-ativo {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+}
+
+.status-inativo {
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+}
+
+/* =========================
+   Badge de Perfil
+========================= */
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-admin {
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+}
+
+.badge-tech {
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+}
+
+.badge-reader {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0284c7;
+}
+
+/* =========================
+   Botões da tabela
+========================= */
+
+.usuario-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.usuario-acoes button {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Hover */
+
+.usuario-acoes .btn-outline-primary:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.usuario-acoes .btn-outline-warning:hover {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.usuario-acoes .btn-outline-danger:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* =========================
+   Modal
+========================= */
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 20px;
+}
+
+.user-modal {
+  width: 100%;
+  max-width: 560px;
+  background: var(--surface);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  animation: modalFade 0.2s ease;
+}
+
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  background: var(--surface-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.user-modal-header h5 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.btn-close-modal {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-close-modal:hover {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text);
+}
+
+.user-modal-body {
+  padding: 22px;
+}
+
+.user-modal-body .form-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.user-modal-body .form-control,
+.user-modal-body .form-select {
+  min-height: 44px;
+  border-radius: 12px;
+}
+
+.user-modal-body .form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.user-modal-footer .btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =========================
+   Avatar do usuário
+========================= */
+
+.usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.usuario-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.usuario-info h6 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.usuario-info span {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* =========================
+   Estado vazio
+========================= */
+
+.usuarios-empty {
+  padding: 50px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* =========================
+   Responsividade
+========================= */
+
+@media (max-width: 992px) {
+  .usuarios-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .usuarios-toolbar button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .usuarios-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .usuario-acoes {
+    justify-content: flex-start;
+  }
+
+  .user-modal {
+    max-width: 100%;
+  }
+
+  .user-modal-body {
+    padding: 18px;
+  }
+
+  .user-modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .user-modal-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

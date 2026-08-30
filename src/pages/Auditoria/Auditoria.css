@@ -1,182 +1,89 @@
+/* =====================================================
+   AUDITORIA GLOBAL - BUILD 002
+   Controle Staging v2.0 Beta
+===================================================== */
 
-.auditoria-page{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
+.auditoria-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-.auditoria-header h2{
-    margin:0;
-    font-weight:700;
+/* Barra de filtros */
+
+.auditoria-filtros {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.auditoria-header p{
-    color:#64748B;
+.auditoria-select {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    min-width: 200px;
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
 }
 
-.audit-card{
-    background:#FFFFFF;
-    border:1px solid #E5E7EB;
-    border-radius:18px;
-    padding:24px;
-    box-shadow:0 4px 18px rgba(15,23,42,.05);
+.auditoria-select svg {
+    color: var(--text-secondary);
 }
 
-.audit-card span{
-    color:#64748B;
+.auditoria-select select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+
+    color: var(--text);
+    font-size: 14px;
 }
 
-.audit-card h2{
-    margin-top:12px;
-    margin-bottom:0;
+/* Card principal */
+
+.auditoria-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
 }
 
-.audit-search{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    background:#FFF;
-    padding:16px;
-
-    border-radius:16px;
-    border:1px solid #E5E7EB;
+.auditoria-card-header {
+    background: var(--surface-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
 }
 
-.audit-search input{
-    border:none;
-    box-shadow:none;
+.auditoria-card-header h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
 }
 
-.audit-search input:focus{
-    box-shadow:none;
-}
+/* Responsividade */
 
-.audit-table{
-    background:#FFF;
-    border-radius:18px;
-    border:1px solid #E5E7EB;
-    box-shadow:0 4px 18px rgba(15,23,42,.05);
-    overflow:hidden;
-}
+@media (max-width: 768px) {
 
-.audit-table table{
-    margin-bottom:0;
-}
-
-.audit-table thead{
-    background:#F8FAFC;
-}
-
-.audit-table th{
-    font-weight:600;
-    color:#475569;
-}
-
-/* ======================================== */
-/* FILTROS */
-/* ======================================== */
-
-.audit-filters{
-
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr auto;
-
-    gap:12px;
-
-}
-
-@media (max-width:992px){
-
-    .audit-filters{
-
-        grid-template-columns:1fr;
-
+    .auditoria-filtros {
+        flex-direction: column;
+        align-items: stretch;
     }
 
-}
-
-/* ======================================== */
-/* CARDS */
-/* ======================================== */
-
-.audit-card{
-
-    border-left:5px solid transparent;
-
-}
-
-.card-blue{
-    border-left-color:#2563EB;
-}
-
-.card-green{
-    border-left-color:#16A34A;
-}
-
-.card-orange{
-    border-left-color:#EA580C;
-}
-
-.card-red{
-    border-left-color:#DC2626;
-}
-.auditoria-header{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:16px;
-
-}
-
-/* ==========================================
-   VISUALIZAÇÃO (Tabela / Timeline)
-========================================== */
-
-.audit-view-switch{
-
-    display:flex;
-    gap:10px;
-
-    margin-bottom:20px;
-
-}
-
-.audit-view-switch button{
-
-    border:none;
-
-    background:#E2E8F0;
-
-    padding:10px 20px;
-
-    border-radius:12px;
-
-    transition:.2s;
-
-    font-weight:600;
-
-}
-
-.audit-view-switch button.active{
-
-    background:#2563EB;
-
-    color:#FFF;
-
-}
-
-@media(max-width:768px){
-
-    .auditoria-header{
-
-        flex-direction:column;
-        align-items:flex-start;
-
+    .auditoria-select {
+        width: 100%;
     }
 
+    .auditoria-filtros .btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
-
-
-

@@ -14,7 +14,7 @@ import PageHeader from "../../ui/PageHeader";
 import SearchInput from "../../ui/SearchInput";
 import DataTable from "../../ui/DataTable";
 import StatusBadge from "../../ui/StatusBadge";
-// import ConfirmModal from "../../ui/ConfirmModal";
+import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 
 import "./Relatorios.css";
 
