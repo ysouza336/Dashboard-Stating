@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import "./assets/styles/global.css";
 
+import { AuthProvider } from "./context/AuthContext";
 import { RegistroProvider } from "./context/RegistroContext";
 import { AuditoriaProvider } from "./context/AuditoriaContext";
 import App from "./App";
@@ -15,7 +16,7 @@ ReactDOM.createRoot(
     document.getElementById("root")
 ).render(
     <React.StrictMode>
-        <AutoProvider>
+        <AuthProvider>
             <BrowserRouter>
                 <AuditoriaProvider>
                     <RegistroProvider>
@@ -23,6 +24,6 @@ ReactDOM.createRoot(
                     </RegistroProvider>
                 </AuditoriaProvider>
             </BrowserRouter>
-        </AutoProvider>
+        </AuthProvider>
     </React.StrictMode>
 );
