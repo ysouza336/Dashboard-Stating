@@ -1,13 +1,19 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Save, RotateCcw } from "lucide-react";
 
-// import {  registroSchema } from "../../schemas/registroSchema";
-import { useRegistros } from "../../context/RegistroContext";
+import  useRegistroForm  from "../../hooks/useRegistroForm";
+import  {useRegistros}  from "../../context/RegistroContext";
 
 import PageHeader from "../../ui/PageHeader";
+
+import FormSection from "../../components/FormSection/FormSection";
+import FormField from "../../components/FormField";
+import SelectField from "../../components/SelectField/SelectField";
+import DateInput from "../../components/DateInput";
+import TextAreaField from "../../components/TextArea";
+
+import  formSections  from "../../data/formSections";
 
 import "./NovoRegistro.css";
 
@@ -15,369 +21,428 @@ function NovoRegistro() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const registroEdicao = location.state?.registroEmEdicao || null;
+    const registroEdicao = location.state?.registroEmEdicao ?? null;
 
     const { adicionarRegistro, atualizarRegistro } = useRegistros();
 
     const {
         register,
         handleSubmit,
+        watch,
+        setValue,
         reset,
-        formState: { errors },
-    } = useForm({
-        resolver: zodResolver(registroSchema),
-        defaultValues: {
-            patrimonio: "",
-            hostname: "",
-            serviceTag: "",
-            serial: "",
-            tipo: "",
-            marca: "",
-            modelo: "",
-            solicitadoPor: "",
-            responsavel: "",
-            status: "Pendente",
-            observacao: "",
-            dataSolicitacao: "",
-            dataFinalizacao: "",
-        },
-    });
+        control,
+        formState: { errors, isSubmitting },
+    } = useRegistroForm();
+
+    const patrimonio = watch("patrimonio");
+    const hostname = watch("hostname");
+    const marca = watch("marca");
+    const modelo = watch("modelo");
+
+    /* =====================================================
+        CARREGA DADOS PARA EDIÇÃO
+    ===================================================== */
 
     useEffect(() => {
         if (registroEdicao) {
-            reset(registroEdicao);
+            reset({
+                patrimonio: registroEdicao.patrimonio || "",
+                hostname: registroEdicao.hostname || "",
+                serviceTag: registroEdicao.serviceTag || "",
+                serial: registroEdicao.serial || "",
+                tipo: registroEdicao.tipo || "",
+                marca: registroEdicao.marca || "",
+                modelo: registroEdicao.modelo || "",
+                solicitadoPor: registroEdicao.solicitadoPor || "",
+                responsavel: registroEdicao.responsavel || "",
+                status: registroEdicao.status || "Pendente",
+                dataSolicitacao: registroEdicao.dataSolicitacao || "",
+                dataFinalizacao: registroEdicao.dataFinalizacao || "",
+                observacao: registroEdicao.observacao || "",
+            });
         }
     }, [registroEdicao, reset]);
 
-    function onSubmit(data) {
+    /* =====================================================
+        GERAÇÃO AUTOMÁTICA DO HOSTNAME
+        (apenas se estiver vazio)
+    ===================================================== */
+
+    useEffect(() => {
+        if (!patrimonio) return;
+
+        if (!hostname || hostname.trim() === "") {
+            const hostnameGerado = `BRCPQD${String(patrimonio).trim()}`;
+            setValue("hostname", hostnameGerado);
+        }
+    }, [patrimonio, hostname, setValue]);
+
+    /* =====================================================
+        LIMPEZA DA SERVICE TAG
+        (NÃO COPIA MAIS O HOSTNAME)
+    ===================================================== */
+
+    useEffect(() => {
+        const tagAtual = watch("serviceTag");
+
+        if (tagAtual === hostname) {
+            setValue("serviceTag", "");
+        }
+    }, [hostname, watch, setValue]);
+
+    /* =====================================================
+        SUBMIT DO FORMULÁRIO
+    ===================================================== */
+
+    const onSubmit = async (dados) => {
+        const payload = {
+            ...dados,
+            hostname: dados.hostname.trim().toUpperCase(),
+            serviceTag: dados.serviceTag.trim().toUpperCase(),
+            marca: dados.marca.trim(),
+            modelo: dados.modelo.trim(),
+        };
+
         if (registroEdicao) {
-            atualizarRegistro(registroEdicao.id, data);
+            atualizarRegistro(registroEdicao.id, payload);
         } else {
-            adicionarRegistro(data);
+            adicionarRegistro({
+                ...payload,
+                id: crypto.randomUUID(),
+                criadoEm: new Date().toISOString(),
+            });
         }
 
+        reset();
         navigate("/relatorios");
-    }
+    };
+
+    const limparFormulario = () => {
+        reset();
+    };
 
     return (
         <div className="novo-registro-page">
+
             <PageHeader
-                title={registroEdicao ? "Editar Registro" : "Novo Registro"}
-                subtitle="Cadastro e atualização de equipamentos do inventário."
+                title={
+                    registroEdicao
+                        ? "Editar Equipamento"
+                        : "Novo Cadastro de Equipamento"
+                }
+                subtitle="Cadastro e atualização do inventário corporativo."
             />
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+                className="registro-form"
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                {/* =====================================================
+            SEÇÃO 1 — IDENTIFICAÇÃO DO EQUIPAMENTO
+        ===================================================== */}
 
-                {/* =======================================================
-            CARD 1 — IDENTIFICAÇÃO DO EQUIPAMENTO
-        ======================================================= */}
+                <FormSection
+                    title="Identificação do Equipamento"
+                    description="Informações principais para identificação do equipamento no inventário."
+                >
+                    <div className="row g-3">
 
-                <div className="registro-card">
+                        <div className="col-md-4">
+                            <FormField
+                                name="patrimonio"
+                                label="Patrimônio"
+                                register={register}
+                                error={errors.patrimonio}
+                                required
+                                placeholder="Ex.: 123456"
+                            />
+                        </div>
 
-                    <div className="registro-card-header">
-                        <h5>Identificação do Equipamento</h5>
+                        <div className="col-md-4">
+                            <FormField
+                                name="hostname"
+                                label="Hostname"
+                                register={register}
+                                error={errors.hostname}
+                                required
+                                placeholder="Ex.: BRCPQD123456"
+                            />
+                        </div>
+
+                        <div className="col-md-4">
+                            <FormField
+                                name="serviceTag"
+                                label="Service TAG"
+                                register={register}
+                                error={errors.serviceTag}
+                                required
+                                placeholder="Ex.: 8KJ4L2A"
+                            />
+                        </div>
+
+                        <div className="col-md-6">
+                            <FormField
+                                name="serial"
+                                label="Serial Number"
+                                register={register}
+                                error={errors.serial}
+                                placeholder="Número de série do equipamento"
+                            />
+                        </div>
+
+                        <div className="col-md-6">
+                            <FormField
+                                name="modelo"
+                                label="Modelo"
+                                register={register}
+                                error={errors.modelo}
+                                placeholder="Ex.: Latitude 5450"
+                            />
+                        </div>
+
                     </div>
+                </FormSection>
 
-                    <div className="registro-card-body">
+                {/* =====================================================
+            SEÇÃO 2 — INFORMAÇÕES DO EQUIPAMENTO
+        ===================================================== */}
 
-                        <div className="row g-3">
+                <FormSection
+                    title="Informações do Equipamento"
+                    description="Categoria e fabricante do equipamento."
+                >
+                    <div className="row g-3">
 
-                            <div className="col-md-4">
+                        <div className="col-md-4">
+                            <SelectField
+                                name="tipo"
+                                label="Tipo"
+                                register={register}
+                                error={errors.tipo}
+                                options={formSections.tipo}
+                                required
+                            />
+                        </div>
 
-                                <label className="form-label">Patrimônio *</label>
+                        <div className="col-md-4">
+                            <SelectField
+                                name="marca"
+                                label="Marca"
+                                register={register}
+                                error={errors.marca}
+                                options={formSections.marca}
+                                required
+                            />
+                        </div>
 
-                                <input
-                                    className={`form-control ${errors.patrimonio ? "is-invalid" : ""
-                                        }`}
-                                    {...register("patrimonio")}
-                                />
+                        <div className="col-md-4">
+                            <FormField
+                                name="modelo"
+                                label="Modelo"
+                                register={register}
+                                error={errors.modelo}
+                                required
+                                placeholder="Ex.: Latitude 5450"
+                            />
+                        </div>
 
-                                <div className="invalid-feedback">
-                                    {errors.patrimonio?.message}
-                                </div>
+                    </div>
+                </FormSection>
 
+                {/* =====================================================
+            SEÇÃO 3 — SOLICITAÇÃO
+        ===================================================== */}
+
+                <FormSection
+                    title="Solicitação e Responsável"
+                    description="Quem solicitou o equipamento e qual técnico é responsável."
+                >
+                    <div className="row g-3">
+
+                        <div className="col-md-6">
+                            <SelectField
+                                name="solicitadoPor"
+                                label="Solicitado Por"
+                                register={register}
+                                error={errors.solicitadoPor}
+                                options={formSections.solicitadoPor}
+                                required
+                            />
+                        </div>
+
+                        <div className="col-md-6">
+                            <SelectField
+                                name="responsavel"
+                                label="Responsável"
+                                register={register}
+                                error={errors.responsavel}
+                                options={formSections.responsavel}
+                                required
+                            />
+                        </div>
+
+                    </div>
+                </FormSection>
+
+                {/* =====================================================
+            SEÇÃO 4 — STAGING / IMPLANTAÇÃO
+        ===================================================== */}
+
+                <FormSection
+                    title="Informações da Implantação"
+                    description="Dados utilizados durante o processo de staging."
+                >
+                    <div className="row g-3">
+
+                        <div className="col-md-4">
+                            <SelectField
+                                name="tipoStaging"
+                                label="Tipo de Staging"
+                                register={register}
+                                error={errors.tipoStaging}
+                                options={formSections.tipoStaging}
+                            />
+                        </div>
+
+                        <div className="col-md-4">
+                            <SelectField
+                                name="escopoStaging"
+                                label="Escopo"
+                                register={register}
+                                error={errors.escopoStaging}
+                                options={formSections.escopoStaging}
+                            />
+                        </div>
+
+                        <div className="col-md-4">
+                            <SelectField
+                                name="localStaging"
+                                label="Local"
+                                register={register}
+                                error={errors.localStaging}
+                                options={formSections.localStaging}
+                            />
+                        </div>
+
+                    </div>
+                </FormSection>
+
+                {/* =====================================================
+            SEÇÃO 5 — STATUS E DATAS
+        ===================================================== */}
+
+                <FormSection
+                    title="Status do Processo"
+                    description="Acompanhamento da preparação do equipamento."
+                >
+                    <div className="row g-3">
+
+                        <div className="col-md-4">
+                            <SelectField
+                                name="status"
+                                label="Status"
+                                register={register}
+                                error={errors.status}
+                                options={formSections.status}
+                                required
+                            />
+                        </div>
+
+                        <div className="col-md-4">
+                            <DateInput
+                                name="dataSolicitacao"
+                                label="Data da Solicitação"
+                                register={register}
+                                error={errors.dataSolicitacao}
+                            />
+                        </div>
+
+                        <div className="col-md-4">
+                            <DateInput
+                                name="dataFinalizacao"
+                                label="Data da Finalização"
+                                register={register}
+                                error={errors.dataFinalizacao}
+                            />
+                        </div>
+
+                    </div>
+                </FormSection>
+                {/* =====================================================
+            SEÇÃO 6 — OBSERVAÇÕES
+        ===================================================== */}
+
+                <FormSection
+                    title="Observações"
+                    description="Informações adicionais sobre o equipamento ou processo de staging."
+                >
+                    <TextAreaField
+                        name="observacao"
+                        label="Observações"
+                        register={register}
+                        error={errors.observacao}
+                        rows={5}
+                        placeholder="Ex.: Equipamento entregue com dockstation, fonte e mochila corporativa."
+                    />
+                </FormSection>
+
+                {/* =====================================================
+            RESUMO DO EQUIPAMENTO
+        ===================================================== */}
+
+                <div className="registro-resumo">
+
+                    <h5>Resumo do Cadastro</h5>
+
+                    <div className="row g-3">
+
+                        <div className="col-md-3">
+                            <div className="resumo-item">
+                                <span>Patrimônio</span>
+                                <strong>{watch("patrimonio") || "--"}</strong>
                             </div>
+                        </div>
 
-                            <div className="col-md-4">
-
-                                <label className="form-label">Hostname *</label>
-
-                                <input
-                                    className={`form-control ${errors.hostname ? "is-invalid" : ""
-                                        }`}
-                                    placeholder="Ex.: BRCPQD123456"
-                                    {...register("hostname")}
-                                />
-
-                                <div className="invalid-feedback">
-                                    {errors.hostname?.message}
-                                </div>
-
+                        <div className="col-md-3">
+                            <div className="resumo-item">
+                                <span>Hostname</span>
+                                <strong>{watch("hostname") || "--"}</strong>
                             </div>
+                        </div>
 
-                            <div className="col-md-4">
-
-                                <label className="form-label">Service TAG *</label>
-
-                                <input
-                                    className={`form-control ${errors.serviceTag ? "is-invalid" : ""
-                                        }`}
-                                    placeholder="Ex.: 8KJ4L2A"
-                                    {...register("serviceTag")}
-                                />
-
-                                <div className="invalid-feedback">
-                                    {errors.serviceTag?.message}
-                                </div>
-
+                        <div className="col-md-3">
+                            <div className="resumo-item">
+                                <span>Service TAG</span>
+                                <strong>{watch("serviceTag") || "--"}</strong>
                             </div>
+                        </div>
 
-                            <div className="col-md-6">
-
-                                <label className="form-label">Serial</label>
-
-                                <input
-                                    className="form-control"
-                                    {...register("serial")}
-                                />
-
+                        <div className="col-md-3">
+                            <div className="resumo-item">
+                                <span>Marca / Modelo</span>
+                                <strong>
+                                    {marca || "--"}
+                                    {marca && modelo ? " / " : ""}
+                                    {modelo || ""}
+                                </strong>
                             </div>
-
-                            <div className="col-md-6">
-
-                                <label className="form-label">Modelo</label>
-
-                                <input
-                                    className="form-control"
-                                    {...register("modelo")}
-                                />
-
-                            </div>
-
                         </div>
 
                     </div>
 
                 </div>
-                {/* =======================================================
-            CARD 2 — INFORMAÇÕES DO EQUIPAMENTO
-        ======================================================= */}
 
-                <div className="registro-card">
-
-                    <div className="registro-card-header">
-                        <h5>Informações do Equipamento</h5>
-                    </div>
-
-                    <div className="registro-card-body">
-
-                        <div className="row g-3">
-
-                            <div className="col-md-4">
-                                <label className="form-label">Tipo *</label>
-
-                                <select
-                                    className={`form-select ${errors.tipo ? "is-invalid" : ""
-                                        }`}
-                                    {...register("tipo")}
-                                >
-                                    <option value="">Selecione</option>
-                                    <option value="Notebook">Notebook</option>
-                                    <option value="Desktop">Desktop</option>
-                                    <option value="Monitor">Monitor</option>
-                                    <option value="Dockstation">Dockstation</option>
-                                    <option value="Impressora">Impressora</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
-
-                                <div className="invalid-feedback">
-                                    {errors.tipo?.message}
-                                </div>
-                            </div>
-
-                            <div className="col-md-4">
-                                <label className="form-label">Marca *</label>
-
-                                <select
-                                    className={`form-select ${errors.marca ? "is-invalid" : ""
-                                        }`}
-                                    {...register("marca")}
-                                >
-                                    <option value="">Selecione</option>
-                                    <option value="Dell">Dell</option>
-                                    <option value="Lenovo">Lenovo</option>
-                                    <option value="HP">HP</option>
-                                    <option value="Samsung">Samsung</option>
-                                    <option value="LG">LG</option>
-                                    <option value="Apple">Apple</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
-
-                                <div className="invalid-feedback">
-                                    {errors.marca?.message}
-                                </div>
-                            </div>
-
-                            <div className="col-md-4">
-                                <label className="form-label">Modelo *</label>
-
-                                <input
-                                    className={`form-control ${errors.modelo ? "is-invalid" : ""
-                                        }`}
-                                    placeholder="Ex.: Latitude 5450"
-                                    {...register("modelo")}
-                                />
-
-                                <div className="invalid-feedback">
-                                    {errors.modelo?.message}
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {/* =======================================================
-            CARD 3 — RESPONSÁVEIS
-        ======================================================= */}
-
-                <div className="registro-card">
-
-                    <div className="registro-card-header">
-                        <h5>Solicitação e Responsáveis</h5>
-                    </div>
-
-                    <div className="registro-card-body">
-
-                        <div className="row g-3">
-
-                            <div className="col-md-6">
-                                <label className="form-label">Solicitado por *</label>
-
-                                <input
-                                    className={`form-control ${errors.solicitadoPor ? "is-invalid" : ""
-                                        }`}
-                                    placeholder="Nome do colaborador"
-                                    {...register("solicitadoPor")}
-                                />
-
-                                <div className="invalid-feedback">
-                                    {errors.solicitadoPor?.message}
-                                </div>
-                            </div>
-
-                            <div className="col-md-6">
-                                <label className="form-label">Responsável *</label>
-
-                                <input
-                                    className={`form-control ${errors.responsavel ? "is-invalid" : ""
-                                        }`}
-                                    placeholder="Nome do técnico responsável"
-                                    {...register("responsavel")}
-                                />
-
-                                <div className="invalid-feedback">
-                                    {errors.responsavel?.message}
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {/* =======================================================
-            CARD 4 — STATUS E DATAS
-        ======================================================= */}
-
-                <div className="registro-card">
-
-                    <div className="registro-card-header">
-                        <h5>Status do Processo</h5>
-                    </div>
-
-                    <div className="registro-card-body">
-
-                        <div className="row g-3">
-
-                            <div className="col-md-4">
-                                <label className="form-label">Status *</label>
-
-                                <select
-                                    className={`form-select ${errors.status ? "is-invalid" : ""
-                                        }`}
-                                    {...register("status")}
-                                >
-                                    <option value="Pendente">Pendente</option>
-                                    <option value="Em andamento">Em andamento</option>
-                                    <option value="Concluído">Concluído</option>
-                                    <option value="Cancelado">Cancelado</option>
-                                </select>
-                            </div>
-
-                            <div className="col-md-4">
-                                <label className="form-label">Data da Solicitação</label>
-
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    {...register("dataSolicitacao")}
-                                />
-                            </div>
-
-                            <div className="col-md-4">
-                                <label className="form-label">Data da Finalização</label>
-
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    {...register("dataFinalizacao")}
-                                />
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-                {/* =======================================================
-            CARD 5 — OBSERVAÇÕES
-        ======================================================= */}
-
-                <div className="registro-card">
-
-                    <div className="registro-card-header">
-                        <h5>Observações</h5>
-                    </div>
-
-                    <div className="registro-card-body">
-
-                        <label className="form-label">Descrição / Observações</label>
-
-                        <textarea
-                            rows={5}
-                            className="form-control"
-                            placeholder="Ex.: Equipamento destinado ao colaborador da unidade Campinas, entregue com dockstation e carregador."
-                            {...register("observacao")}
-                        />
-
-                    </div>
-
-                </div>
-
-                {/* =======================================================
+                {/* =====================================================
             BOTÕES DE AÇÃO
-        ======================================================= */}
+        ===================================================== */}
 
                 <div className="registro-acoes">
 
                     <button
                         type="button"
                         className="btn btn-outline-secondary"
-                        onClick={() => reset()}
+                        onClick={limparFormulario}
                     >
                         <RotateCcw size={18} />
                         Limpar Formulário
@@ -394,9 +459,13 @@ function NovoRegistro() {
                     <button
                         type="submit"
                         className="btn btn-primary"
+                        disabled={isSubmitting}
                     >
                         <Save size={18} />
-                        {registroEdicao ? "Salvar Alterações" : "Cadastrar Equipamento"}
+
+                        {registroEdicao
+                            ? "Salvar Alterações"
+                            : "Cadastrar Equipamento"}
                     </button>
 
                 </div>
@@ -407,4 +476,4 @@ function NovoRegistro() {
     );
 }
 
-export default NovoRegistro;    
+export default NovoRegistro;

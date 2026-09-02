@@ -1,40 +1,40 @@
 /* ==========================================================
-   FORM FIELD
+   SELECT FIELD
 ========================================================== */
 
-.form-field {
+.select-field {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.form-field .form-label {
+.select-field .form-label {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
   color: var(--text-secondary);
 }
 
-.required-indicator {
-  color: #dc2626;
-  margin-left: 4px;
-}
-
-.form-field .form-control {
+.select-field .form-select {
   min-height: 44px;
   border-radius: 12px;
   transition: border-color .2s ease, box-shadow .2s ease;
 }
 
-.form-field .form-control:focus {
-  box-shadow: 0 0 0 .2rem rgba(37,99,235,.15);
+.select-field .form-select:focus {
+  box-shadow: 0 0 0 .2rem rgba(37, 99, 235, 0.15);
 }
 
-.form-field .form-control.is-invalid {
+.select-field .form-select.is-invalid {
   border-color: #dc2626;
 }
 
-.form-field .invalid-feedback {
-  font-size: 12px;
+.select-field .invalid-feedback {
   margin-top: 4px;
+  font-size: 12px;
+}
+
+.required-indicator {
+  color: #dc2626;
+  margin-left: 4px;
 }

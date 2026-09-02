@@ -1,38 +1,39 @@
-import "./FormField.css";
+import "./SelectField.css";
 
-function FormField({
+function SelectField({
   name,
   label,
   register,
   error,
+  options = [],
   required = false,
-  placeholder = "",
-  type = "text",
   disabled = false,
-  maxLength,
-  autoComplete = "off",
+  placeholder = "Selecione uma opção",
 }) {
   return (
-    <div className="form-field">
+    <div className="select-field">
 
       <label htmlFor={name} className="form-label">
         {label}
-
         {required && (
           <span className="required-indicator">*</span>
         )}
       </label>
 
-      <input
+      <select
         id={name}
-        type={type}
-        placeholder={placeholder}
         disabled={disabled}
-        autoComplete={autoComplete}
-        maxLength={maxLength}
-        className={`form-control ${error ? "is-invalid" : ""}`}
+        className={`form-select ${error ? "is-invalid" : ""}`}
         {...register(name)}
-      />
+      >
+        <option value="">{placeholder}</option>
+
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
 
       {error && (
         <div className="invalid-feedback d-block">
@@ -44,4 +45,4 @@ function FormField({
   );
 }
 
-export default FormField;
+export default SelectField;

@@ -25,17 +25,11 @@ function AppRoutes() {
         {/* Área autenticada */}
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
-
             <Route path="/" element={<Dashboard />} />
-
-            <Route path="/novo-registro" element={<NovoRegistro />} />
-
+            <Route path="/novo" element={<NovoRegistro />} />
             <Route path="/relatorios" element={<Relatorios />} />
-
             <Route path="/auditoria" element={<Auditoria />} />
-
-            <Route path="/importar-excel" element={<ImportarExcel />} />
-
+            <Route path="/importar" element={<ImportarExcel />} />
             <Route
               path="/usuarios"
               element={
