@@ -8,15 +8,116 @@ import DataTable from "../../ui/DataTable";
 
 import "./ImportarExcel.css";
 
+// ==============================================================
+// MAPA COMPLETO DE COLUNAS
+// ==============================================================
+// Cobre TODAS as colunas da planilha de Controle Mensal (não só as
+// básicas), para não precisar mexer no código de novo a cada campo
+// novo que aparecer. Chave = cabeçalho normalizado (sem acento,
+// minúsculo, trim). Valor = chave canônica usada na aplicação.
+const MAPA_COLUNAS = {
+  // identificação / equipamento
+  "patrimonio celtic": "patrimonio",
+  "patrimonio kn": "patrimonio",
+  "patrimonio": "patrimonio",
+  "imei / serial": "serviceTag",
+  "imei/serial": "serviceTag",
+  "imei serial": "serviceTag",
+  "service tag": "serviceTag",
+  "servicetag": "serviceTag",
+  "hostname": "hostname",
+  "tipo": "tipo",
+  "marca": "marca",
+  "modelo": "modelo",
+  "status": "status",
+
+  // fluxo de staging
+  "data solicitacao": "dataSolicitacao",
+  "solicitado por": "solicitadoPor",
+  "tipo de staging": "tipoStaging",
+  "escopo do staging": "escopoStaging",
+  "local staging": "localStaging",
+  "responsavel staging": "responsavelStaging",
+  "data inicio": "dataInicio",
+  "data conclusao": "dataConclusao",
+  "concluido por": "concluidoPor",
+  "motivo pendencia": "motivoPendencia",
+  "data entrega/retirada": "dataEntregaRetirada",
+  "data entrega / retirada": "dataEntregaRetirada",
+  "entregue/retirado por": "entregueRetiradoPor",
+  "entregue / retirado por": "entregueRetiradoPor",
+  "comprovante/evidencia": "comprovanteEvidencia",
+  "comprovante / evidencia": "comprovanteEvidencia",
+  "observacoes": "observacoes",
+  "prazo staging (dias)": "prazoStagingDias",
+  "mes conclusao": "mesConclusao",
+  "ano conclusao": "anoConclusao",
+  "dentro do prazo?": "dentroDoPrazo",
+  "dentro do prazo": "dentroDoPrazo",
+
+  // "ID Registro" é gerado pela própria aplicação (crypto.randomUUID),
+  // então o valor da planilha é ignorado de propósito.
+};
+
+// Campos mínimos para o equipamento ser considerado válido.
+// "hostname" não entra aqui: a planilha de Controle de Staging não tem
+// essa coluna (o identificador disponível é o IMEI/Serial).
 const COLUNAS_OBRIGATORIAS = [
   "patrimonio",
-  "hostname",
   "serviceTag",
   "tipo",
   "marca",
   "modelo",
   "status",
 ];
+
+// Colunas exibidas na pré-visualização (não precisa ser tudo, só o
+// essencial pra conferência visual antes de importar).
+const COLUNAS_PREVIEW = [
+  { accessor: "patrimonio", header: "Patrimônio" },
+  { accessor: "serviceTag", header: "IMEI / Service TAG" },
+  { accessor: "tipo", header: "Tipo" },
+  { accessor: "marca", header: "Marca" },
+  { accessor: "modelo", header: "Modelo" },
+  { accessor: "status", header: "Status" },
+  { accessor: "localStaging", header: "Local Staging" },
+];
+
+function normalizarTexto(texto) {
+  return String(texto)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // remove acentos
+    .trim()
+    .toLowerCase();
+}
+
+// Converte um registro lido do Excel (chaves = cabeçalhos originais da
+// planilha) para o formato canônico usado pela aplicação.
+function normalizarRegistro(registroOriginal) {
+  const registroNormalizado = {};
+
+  Object.keys(registroOriginal).forEach((cabecalhoOriginal) => {
+    const chaveNormalizada = normalizarTexto(cabecalhoOriginal);
+    const chaveCanonica = MAPA_COLUNAS[chaveNormalizada];
+
+    if (chaveCanonica) {
+      const valor = registroOriginal[cabecalhoOriginal];
+      registroNormalizado[chaveCanonica] =
+        typeof valor === "string" ? valor.trim() : valor;
+    }
+  });
+
+  return registroNormalizado;
+}
+
+// Planilhas com validação de dados/formatação aplicada além da última
+// linha real (comum em modelos) fazem o XLSX enxergar "linhas fantasma"
+// completamente vazias. Descartamos qualquer linha sem nenhum valor.
+function registroEstaVazio(registro) {
+  return Object.values(registro).every(
+    (valor) => valor === "" || valor === null || valor === undefined
+  );
+}
 
 function ImportarExcel() {
   const { adicionarRegistro } = useRegistros();
@@ -41,9 +142,14 @@ function ImportarExcel() {
 
       const json = XLSX.utils.sheet_to_json(sheet, {
         defval: "",
+        raw: false, // mantém datas/números já formatados como texto
       });
 
-      validarPlanilha(json);
+      const registrosNormalizados = json
+        .map(normalizarRegistro)
+        .filter((registro) => !registroEstaVazio(registro));
+
+      validarPlanilha(registrosNormalizados);
     };
 
     reader.readAsBinaryString(file);
@@ -63,19 +169,16 @@ function ImportarExcel() {
       });
     });
 
-    setDados(registros);
+    // id temporário só para a pré-visualização (a definitiva é gerada
+    // no RegistroContext ao importar de fato).
+    const registrosComIdTemporario = registros.map((registro, index) => ({
+      id: `preview-${index}`,
+      ...registro,
+    }));
+
+    setDados(registrosComIdTemporario);
     setErros(listaErros);
   }
-
-  const columns = [
-    { key: "patrimonio", label: "Patrimônio" },
-    { key: "hostname", label: "Hostname" },
-    { key: "serviceTag", label: "Service TAG" },
-    { key: "tipo", label: "Tipo" },
-    { key: "marca", label: "Marca" },
-    { key: "modelo", label: "Modelo" },
-    { key: "status", label: "Status" },
-  ];
 
   return (
     <div className="importar-page">
@@ -134,7 +237,7 @@ function ImportarExcel() {
             </div>
 
             <DataTable
-              columns={columns}
+              columns={COLUNAS_PREVIEW}
               data={dados.slice(0, 20)}
               emptyMessage="Nenhum registro encontrado."
             />
@@ -186,7 +289,15 @@ function ImportarExcel() {
             className="btn btn-success"
             disabled={dados.length === 0 || erros.length > 0}
             onClick={() => {
-              dados.forEach((registro) => adicionarRegistro(registro));
+              // remove o id temporário de preview antes de gravar de
+              // verdade (o RegistroContext gera o id definitivo)
+              const registrosParaImportar = dados.map(
+                ({ id, ...registro }) => registro
+              );
+
+              registrosParaImportar.forEach((registro) =>
+                adicionarRegistro(registro)
+              );
 
               // Na próxima sprint será integrado:
               // criarSnapshot(usuarioLogado.nome, "Importação Excel");

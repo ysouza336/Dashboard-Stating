@@ -1,0 +1,221 @@
+/* ==========================================================
+   BUILD 005 — ADMINISTRAÇÃO
+   ABA USUÁRIOS
+========================================================== */
+
+.usuarios-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cabeçalho */
+
+.usuarios-tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.usuarios-tab-header h4 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.usuarios-tab-header p {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* Métricas */
+
+.usuarios-tab-metricas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.usuario-metrica-card {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.usuario-metrica-card span {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.usuario-metrica-card strong {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.usuario-metrica-card.success {
+  border-left: 5px solid #16a34a;
+}
+
+.usuario-metrica-card.warning {
+  border-left: 5px solid #f59e0b;
+}
+
+/* Pesquisa */
+
+.usuarios-search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 16px;
+}
+
+.usuarios-search-box svg {
+  color: var(--text-secondary);
+}
+
+.usuarios-search-box input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--text);
+  font-size: 14px;
+}
+
+/* Tabela */
+
+.usuarios-table-container {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.usuarios-table {
+  margin-bottom: 0;
+}
+
+.usuarios-table thead {
+  background: var(--surface-secondary);
+}
+
+.usuarios-table th {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: 16px;
+}
+
+.usuarios-table td {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+/* Usuário */
+
+.usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.usuario-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.usuario-info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.usuario-info span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Status */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.ativo {
+  background: rgba(22, 163, 74, .12);
+  color: #16a34a;
+}
+
+.status-badge.inativo {
+  background: rgba(220, 38, 38, .12);
+  color: #dc2626;
+}
+
+/* Ações */
+
+.usuario-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.usuario-acoes .btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estado vazio */
+
+.usuarios-empty-row {
+  text-align: center;
+  padding: 40px !important;
+  color: var(--text-secondary);
+}
+
+/* Responsivo */
+
+@media (max-width: 768px) {
+  .usuarios-tab-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .usuarios-tab-header .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .usuarios-search-box {
+    padding: 10px 14px;
+  }
+
+  .usuarios-table-container {
+    overflow-x: auto;
+  }
+
+  .usuarios-table {
+    min-width: 760px;
+  }
+}

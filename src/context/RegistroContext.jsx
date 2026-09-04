@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuditoria } from "./AuditoriaContext";
 
@@ -60,7 +59,7 @@ export function RegistroProvider({ children }) {
         adicionarLog({
             acao: "Equipamento cadastrado",
             patrimonio: novoRegistro.patrimonio,
-            hostname: novoRegistro.hostname,
+            serviceTag: novoRegistro.serviceTag,
             detalhes: `${novoRegistro.tipo} ${novoRegistro.marca} ${novoRegistro.modelo}`
         });
 
@@ -89,7 +88,7 @@ export function RegistroProvider({ children }) {
                     adicionarLog({
                         acao: "Status alterado",
                         patrimonio: registro.patrimonio,
-                        hostname: registro.hostname,
+                        serviceTag: registro.serviceTag,
                         detalhes: `${registro.status} → ${dadosAtualizados.status}`
                     });
                 }
@@ -97,7 +96,7 @@ export function RegistroProvider({ children }) {
                 adicionarLog({
                     acao: "Equipamento atualizado",
                     patrimonio: registro.patrimonio,
-                    hostname: registro.hostname,
+                    serviceTag: registro.serviceTag,
                     detalhes: "Dados do equipamento atualizados."
                 });
 
@@ -128,7 +127,7 @@ export function RegistroProvider({ children }) {
             adicionarLog({
                 acao: "Equipamento removido",
                 patrimonio: registro.patrimonio,
-                hostname: registro.hostname,
+                serviceTag: registro.serviceTag,
                 detalhes: `${registro.tipo} ${registro.marca} removido do sistema`
             });
         }
@@ -221,4 +220,3 @@ export function useRegistros() {
 
     return context;
 }
-

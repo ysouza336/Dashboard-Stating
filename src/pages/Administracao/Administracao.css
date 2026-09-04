@@ -1,0 +1,407 @@
+/* ==========================================================
+   CONTROLE STAGING V2.0 BETA
+   BUILD 005 — ADMINISTRAÇÃO
+   Página principal da Administração
+========================================================== */
+
+/* =========================
+   Página
+========================= */
+
+.administracao-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* =========================
+   Grid de Métricas
+========================= */
+
+.admin-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* =========================
+   Barra de Abas
+========================= */
+
+.admin-tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.admin-tabs::-webkit-scrollbar {
+  height: 6px;
+}
+
+.admin-tabs::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
+}
+
+/* =========================
+   Botões das Abas
+========================= */
+
+.admin-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: none;
+
+  background: transparent;
+  color: var(--text-secondary);
+
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-tab svg {
+  flex-shrink: 0;
+}
+
+.admin-tab:hover {
+  background: var(--surface-secondary);
+  color: var(--text);
+}
+
+.admin-tab.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+   Card do Conteúdo
+========================= */
+
+.admin-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  min-height: 520px;
+}
+
+/* =========================
+   Cabeçalho interno das abas
+========================= */
+
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-section-header h4 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.admin-section-header p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* =========================
+   Cards internos
+========================= */
+
+.admin-card {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-card:last-child {
+  margin-bottom: 0;
+}
+
+.admin-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.admin-card-title svg {
+  color: var(--primary);
+}
+
+.admin-card-title h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* =========================
+   Informações da Aplicação
+========================= */
+
+.admin-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.admin-info-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.admin-info-item span {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.admin-info-item strong {
+  font-size: 15px;
+  color: var(--text);
+}
+
+/* =========================
+   Lista de Sessões / Logs
+========================= */
+
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.admin-list-item:hover {
+  border-color: rgba(37, 99, 235, 0.35);
+}
+
+.admin-list-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-list-item-info strong {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.admin-list-item-info span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* =========================
+   Status
+========================= */
+
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-status.online {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+}
+
+.admin-status.offline {
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+}
+
+.admin-status.warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+/* =========================
+   Botões
+========================= */
+
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =========================
+   Backup
+========================= */
+
+.backup-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.backup-item {
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.backup-item h5 {
+  margin-bottom: 10px;
+}
+
+.backup-item p {
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* =========================
+   Estado vazio
+========================= */
+
+.admin-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 280px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.admin-empty svg {
+  opacity: 0.4;
+}
+
+.admin-empty h5 {
+  margin: 0;
+}
+
+.admin-empty p {
+  margin: 0;
+  max-width: 380px;
+  font-size: 13px;
+}
+
+/* =========================
+   Responsividade
+========================= */
+
+@media (max-width: 992px) {
+
+  .admin-content {
+    padding: 20px;
+  }
+
+  .admin-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .admin-tabs {
+    padding: 6px;
+    gap: 8px;
+  }
+
+  .admin-tab {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .admin-content {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .admin-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-actions {
+    width: 100%;
+  }
+
+  .admin-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .admin-tab {
+    min-width: 120px;
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .admin-content {
+    padding: 16px;
+  }
+
+}

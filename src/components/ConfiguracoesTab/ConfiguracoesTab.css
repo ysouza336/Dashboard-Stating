@@ -1,0 +1,147 @@
+/* ==========================================================
+   BUILD 005 — ADMINISTRAÇÃO
+   ABA CONFIGURAÇÕES
+========================================================== */
+
+.config-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.config-header h4 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.config-header p {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Card */
+
+.config-card {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.config-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.config-card-title svg {
+  color: var(--primary);
+}
+
+.config-card-title h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Tema */
+
+.tema-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.tema-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.tema-card:hover {
+  border-color: var(--primary);
+}
+
+.tema-card.active {
+  background: rgba(37,99,235,.08);
+  border-color: var(--primary);
+}
+
+.tema-card span {
+  font-weight: 600;
+}
+
+/* Switch */
+
+.config-switch {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 0;
+}
+
+.config-switch strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.config-switch span {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.config-switch input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Botões */
+
+.config-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.config-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Responsivo */
+
+@media (max-width: 768px) {
+
+  .config-card {
+    padding: 18px;
+  }
+
+  .config-switch {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .config-actions {
+    flex-direction: column;
+  }
+
+  .config-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+}
