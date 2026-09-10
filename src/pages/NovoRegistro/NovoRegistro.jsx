@@ -376,13 +376,6 @@ function NovoRegistro() {
 
                         <div className="col-md-3">
                             <div className="resumo-item">
-                                <span>Service TAG</span>
-                                <strong>{watch("serviceTag") || "--"}</strong>
-                            </div>
-                        </div>
-
-                        <div className="col-md-3">
-                            <div className="resumo-item">
                                 <span>Marca / Modelo</span>
                                 <strong>
                                     {marca || "--"}
