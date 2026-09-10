@@ -144,11 +144,10 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Identificação do Equipamento"
-                    description="Informações principais para identificação do equipamento no inventário."
                 >
                     <div className="row g-3">
 
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                             <FormField
                                 name="patrimonio"
                                 label="Patrimônio"
@@ -159,7 +158,7 @@ function NovoRegistro() {
                             />
                         </div>
 
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                             <FormField
                                 name="hostname"
                                 label="Hostname"
@@ -167,17 +166,6 @@ function NovoRegistro() {
                                 error={errors.hostname}
                                 required
                                 placeholder="Ex.: BRCPQD123456"
-                            />
-                        </div>
-
-                        <div className="col-md-4">
-                            <FormField
-                                name="serviceTag"
-                                label="Service TAG"
-                                register={register}
-                                error={errors.serviceTag}
-                                required
-                                placeholder="Ex.: 8KJ4L2A"
                             />
                         </div>
 
@@ -190,7 +178,6 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Informações do Equipamento"
-                    description="Categoria e fabricante do equipamento."
                 >
                     <div className="row g-3">
 
@@ -236,7 +223,6 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Solicitação e Responsável"
-                    description="Quem solicitou o equipamento e qual técnico é responsável."
                 >
                     <div className="row g-3">
 
@@ -271,7 +257,6 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Informações da Implantação"
-                    description="Dados utilizados durante o processo de staging."
                 >
                     <div className="row g-3">
 
@@ -314,7 +299,6 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Status do Processo"
-                    description="Acompanhamento da preparação do equipamento."
                 >
                     <div className="row g-3">
 
@@ -355,7 +339,6 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Observações"
-                    description="Informações adicionais sobre o equipamento ou processo de staging."
                 >
                     <TextAreaField
                         name="observacao"

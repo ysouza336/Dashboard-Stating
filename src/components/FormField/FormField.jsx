@@ -9,6 +9,7 @@ function FormField({
   placeholder = "",
   type = "text",
   disabled = false,
+  readOnly = false,
   maxLength,
   autoComplete = "off",
 }) {
@@ -29,6 +30,7 @@ function FormField({
         placeholder={placeholder}
         disabled={disabled}
         autoComplete={autoComplete}
+        readOnly={readOnly}
         maxLength={maxLength}
         className={`form-control ${error ? "is-invalid" : ""}`}
         {...register(name)}
