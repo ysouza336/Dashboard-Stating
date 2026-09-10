@@ -1,0 +1,111 @@
+.backup-tab-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.backup-tab-header h4 {
+  margin: 0 0 4px;
+}
+
+.backup-tab-header p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.backup-tab-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-importar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* MÉTRICAS */
+
+.backup-tab-metricas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.backup-metrica-card {
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #fff;
+}
+
+.backup-metrica-card span {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.backup-metrica-card strong {
+  font-size: 1.3rem;
+}
+
+.backup-metrica-card.success strong {
+  color: #198754;
+}
+
+.backup-metrica-card.warning strong {
+  color: #b8860b;
+}
+
+/* AVISO */
+
+.backup-tab-aviso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 193, 7, 0.12);
+  color: #b8860b;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+/* TABELA */
+
+.backup-table-container {
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.backup-table {
+  margin: 0;
+}
+
+.backup-empty-row {
+  text-align: center;
+  padding: 24px;
+  color: #6c757d;
+}
+
+.backup-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #495057;
+}
+
+.backup-acoes {
+  display: flex;
+  gap: 6px;
+}

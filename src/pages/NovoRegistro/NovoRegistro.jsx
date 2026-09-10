@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Save, RotateCcw } from "lucide-react";
 
-import  useRegistroForm  from "../../hooks/useRegistroForm";
-import  {useRegistros}  from "../../context/RegistroContext";
+import useRegistroForm from "../../hooks/useRegistroForm";
+import { useRegistros } from "../../context/RegistroContext";
 
 import PageHeader from "../../ui/PageHeader";
 
@@ -13,7 +13,7 @@ import SelectField from "../../components/SelectField/SelectField";
 import DateInput from "../../components/DateInput";
 import TextAreaField from "../../components/TextArea";
 
-import  formSections  from "../../data/formSections";
+import { opcoesPorCampo as options } from "../../data/formSections";
 
 import "./NovoRegistro.css";
 
@@ -181,26 +181,6 @@ function NovoRegistro() {
                             />
                         </div>
 
-                        <div className="col-md-6">
-                            <FormField
-                                name="serial"
-                                label="Serial Number"
-                                register={register}
-                                error={errors.serial}
-                                placeholder="Número de série do equipamento"
-                            />
-                        </div>
-
-                        <div className="col-md-6">
-                            <FormField
-                                name="modelo"
-                                label="Modelo"
-                                register={register}
-                                error={errors.modelo}
-                                placeholder="Ex.: Latitude 5450"
-                            />
-                        </div>
-
                     </div>
                 </FormSection>
 
@@ -220,7 +200,7 @@ function NovoRegistro() {
                                 label="Tipo"
                                 register={register}
                                 error={errors.tipo}
-                                options={formSections.tipo}
+                                options={options.tipo}
                                 required
                             />
                         </div>
@@ -231,7 +211,7 @@ function NovoRegistro() {
                                 label="Marca"
                                 register={register}
                                 error={errors.marca}
-                                options={formSections.marca}
+                                options={options.marca}
                                 required
                             />
                         </div>
@@ -266,7 +246,7 @@ function NovoRegistro() {
                                 label="Solicitado Por"
                                 register={register}
                                 error={errors.solicitadoPor}
-                                options={formSections.solicitadoPor}
+                                options={options.solicitadoPor}
                                 required
                             />
                         </div>
@@ -277,7 +257,7 @@ function NovoRegistro() {
                                 label="Responsável"
                                 register={register}
                                 error={errors.responsavel}
-                                options={formSections.responsavel}
+                                options={options.responsavel}
                                 required
                             />
                         </div>
@@ -301,7 +281,7 @@ function NovoRegistro() {
                                 label="Tipo de Staging"
                                 register={register}
                                 error={errors.tipoStaging}
-                                options={formSections.tipoStaging}
+                                options={options.tipoStaging}
                             />
                         </div>
 
@@ -311,7 +291,7 @@ function NovoRegistro() {
                                 label="Escopo"
                                 register={register}
                                 error={errors.escopoStaging}
-                                options={formSections.escopoStaging}
+                                options={options.escopoStaging}
                             />
                         </div>
 
@@ -321,7 +301,7 @@ function NovoRegistro() {
                                 label="Local"
                                 register={register}
                                 error={errors.localStaging}
-                                options={formSections.localStaging}
+                                options={options.localStaging}
                             />
                         </div>
 
@@ -344,7 +324,7 @@ function NovoRegistro() {
                                 label="Status"
                                 register={register}
                                 error={errors.status}
-                                options={formSections.status}
+                                options={options.status}
                                 required
                             />
                         </div>

@@ -176,4 +176,27 @@ const formSections = [
     }
 ];
 
+/**
+ * Varre todas as seções/campos de formSections e monta um objeto plano
+ * { nomeDoCampo: [opções] } para os campos do tipo "select".
+ *
+ * Isso permite que qualquer componente (ex: NovoRegistro.jsx) acesse
+ * as opções de um campo específico sem precisar importar options.js
+ * de novo nem soletrar formSections[i].fields[j].options manualmente.
+ *
+ * Exemplo de uso:
+ *   import { opcoesPorCampo } from "../../data/formSections";
+ *   opcoesPorCampo.tipo   -> ["Notebook", "Desktop", "Monitor"]
+ *   opcoesPorCampo.marca  -> ["Dell", "Lenovo", "HP", "Apple"]
+ */
+export const opcoesPorCampo = formSections.reduce((acumulador, secao) => {
+    secao.fields.forEach((campo) => {
+        if (campo.component === "select" && campo.options) {
+            acumulador[campo.name] = campo.options;
+        }
+    });
+
+    return acumulador;
+}, {});
+
 export default formSections;

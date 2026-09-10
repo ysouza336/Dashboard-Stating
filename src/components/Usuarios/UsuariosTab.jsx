@@ -9,9 +9,9 @@ import {
   Search,
 } from "lucide-react";
 
-import AuthService from "../../../services/AuthService";
-import UserModal from "../../Usuarios/UserModal";
-import RoleBadge from "../../Usuarios/RoleBadge";
+import AuthService from "../../services/AuthService";
+import UserModal from "../UserModal/UserModal";
+import RoleBadge from "../RoleBadge/RoleBadge";
 
 import "./UsuariosTab.css";
 

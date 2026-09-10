@@ -8,7 +8,7 @@ import {
   Activity,
 } from "lucide-react";
 
-import { useAuditoria } from "../../../context/AuditoriaContext";
+import { useAuditoria } from "../../context/AuditoriaContext";
 
 import "./LogsTab.css";
 

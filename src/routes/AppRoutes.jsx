@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
 import PermissionGate from "./PermissionGate";
@@ -9,41 +9,175 @@ import Login from "../pages/Login/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import NovoRegistro from "../pages/NovoRegistro/NovoRegistro";
 import Relatorios from "../pages/Relatorios/Relatorios";
-import Auditoria from "../pages/Auditoria/Auditoria";
 import ImportarExcel from "../pages/ImportarExcel/ImportarExcel";
 import Usuarios from "../pages/Usuarios/Usuarios";
-// import Administracao from "../pages/Administracao/Administracao";
+import Auditoria from "../pages/Auditoria/Auditoria";
+import Administracao from "../pages/Administracao/Administracao";
+import NotFound from "../pages/NotFound/NotFound";
 
 function AppRoutes() {
   return (
-    
+   
       <Routes>
 
-        {/* Página pública */}
-        <Route path="/login" element={<Login />} />
+        {/* ==========================================
+            ROTA PÚBLICA
+        ========================================== */}
 
-        {/* Área autenticada */}
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        {/* ==========================================
+            ROTAS PRIVADAS
+        ========================================== */}
+
         <Route element={<PrivateRoute />}>
+
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/novo" element={<NovoRegistro />} />
-            <Route path="/relatorios" element={<Relatorios />} />
-            <Route path="/auditoria" element={<Auditoria />} />
-            <Route path="/importar" element={<ImportarExcel />} />
+
+            {/* Dashboard */}
+
+            <Route
+              path="/"
+              element={
+                <Navigate
+                  to="/dashboard"
+                  replace
+                />
+              }
+            />
+
+            <Route
+              path="/dashboard"
+              element={
+                <Dashboard />
+              }
+            />
+
+            {/* Novo Registro */}
+
+            <Route
+              path="/novo"
+              element={
+                <PermissionGate
+                  allow={[
+                    "Administrador",
+                    "Tecnico",
+                  ]}
+                >
+                  <NovoRegistro />
+                </PermissionGate>
+              }
+            />
+
+            {/* Edição de Registro */}
+
+            <Route
+              path="/editar-registro/:id"
+              element={
+                <PermissionGate
+                  allow={[
+                    "Administrador",
+                    "Tecnico",
+                  ]}
+                >
+                  <NovoRegistro />
+                </PermissionGate>
+              }
+            />
+
+            {/* Relatórios */}
+
+            <Route
+              path="/relatorios"
+              element={
+                <PermissionGate
+                  allow={[
+                    "Administrador",
+                    "Tecnico",
+                    "Visualizador",
+                  ]}
+                >
+                  <Relatorios />
+                </PermissionGate>
+              }
+            />
+
+            {/* Importação Excel */}
+
+            <Route
+              path="/importar-excel"
+              element={
+                <PermissionGate
+                  allow={[
+                    "Administrador",
+                    "Tecnico",
+                  ]}
+                >
+                  <ImportarExcel />
+                </PermissionGate>
+              }
+            />
+
+            {/* Auditoria */}
+
+            <Route
+              path="/auditoria"
+              element={
+                <PermissionGate
+                  allow={[
+                    "Administrador",
+                  ]}
+                >
+                  <Auditoria />
+                </PermissionGate>
+              }
+            />
+
+            {/* Usuários */}
+
             <Route
               path="/usuarios"
               element={
-                <PermissionGate allow={["Administrador"]}>
+                <PermissionGate
+                  allow={[
+                    "Administrador",
+                  ]}
+                >
                   <Usuarios />
                 </PermissionGate>
               }
             />
 
+            {/* Administração */}
+
+            <Route
+              path="/administracao"
+              element={
+                <PermissionGate
+                  allow={[
+                    "Administrador",
+                  ]}
+                >
+                  <Administracao />
+                </PermissionGate>
+              }
+            />
+
           </Route>
+
         </Route>
 
-        {/* Qualquer rota inválida */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* ==========================================
+            PÁGINA NÃO ENCONTRADA
+        ========================================== */}
+
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
 
       </Routes>
     

@@ -1,0 +1,142 @@
+/* ==========================================================
+   CONTROLE STAGING V2.0 BETA
+   MODAL DE USUÁRIOS
+========================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 1050;
+}
+
+.user-modal {
+  width: 100%;
+  max-width: 620px;
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+.user-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.user-modal-title {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.user-modal-title svg {
+  color: var(--primary);
+}
+
+.user-modal-title h4 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.user-modal-title p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.modal-close-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.modal-close-btn:hover {
+  background: var(--surface-secondary);
+}
+
+.user-modal-body {
+  padding: 24px;
+}
+
+.required {
+  color: #dc2626;
+}
+
+.user-switch {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.user-switch strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.user-switch span {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.user-switch input {
+  width: 20px;
+  height: 20px;
+}
+
+.user-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-secondary);
+}
+
+.user-modal-footer .btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 16px;
+    align-items: flex-end;
+  }
+
+  .user-modal {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .user-modal-header,
+  .user-modal-body,
+  .user-modal-footer {
+    padding: 18px;
+  }
+
+  .user-modal-footer {
+    flex-direction: column;
+  }
+
+  .user-modal-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

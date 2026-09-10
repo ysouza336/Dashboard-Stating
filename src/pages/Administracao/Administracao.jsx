@@ -10,11 +10,11 @@ import {
 import PageHeader from "../../ui/PageHeader";
 import MetricCard from "../../ui/MetricCard";
 
-import UsuariosTab from "./components/UsuariosTab";
-import SessoesTab from "./components/SessoesTab";
-import LogsTab from "./components/LogsTab";
-import ConfiguracoesTab from "./components/ConfiguracoesTab";
-import BackupTab from "./components/BackupTab";
+import UsuariosTab from "../../components/Usuarios/UsuariosTab";
+import SessoesTab from "../../components/SessoesTab/SessoesTab";
+import LogsTab from "../../components/LogsTab/LogsTab";
+import ConfiguracoesTab from "../../components/ConfiguracoesTab/ConfiguracoesTab";
+import BackupTab from "../../components/BackupTab/BackupTab";
 
 import AuthService from "../../services/AuthService";
 import { useAuditoria } from "../../context/AuditoriaContext";

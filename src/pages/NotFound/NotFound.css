@@ -1,0 +1,134 @@
+/* ==========================================================
+   CONTROLE STAGING V2.0 BETA
+   BUILD 006 — PÁGINA 404
+========================================================== */
+
+.not-found-page {
+  min-height: calc(100vh - 40px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: var(--bg);
+}
+
+.not-found-card {
+  width: 100%;
+  max-width: 560px;
+
+  padding: 48px 32px;
+
+  text-align: center;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 22px;
+
+  box-shadow: var(--shadow-md);
+}
+
+.not-found-icon {
+  width: 88px;
+  height: 88px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(245, 158, 11, 0.12);
+
+  color: #d97706;
+}
+
+.not-found-code {
+  display: block;
+
+  font-size: 72px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  color: var(--primary);
+
+  margin-bottom: 12px;
+}
+
+.not-found-card h1 {
+  margin: 0 0 10px;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  color: var(--text);
+}
+
+.not-found-card p {
+  max-width: 420px;
+
+  margin: 0 auto;
+
+  color: var(--text-secondary);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+.not-found-actions {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 28px;
+
+  flex-wrap: wrap;
+}
+
+.not-found-actions .btn {
+  min-height: 44px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 18px;
+}
+
+@media (max-width: 576px) {
+  .not-found-card {
+    padding: 36px 22px;
+  }
+
+  .not-found-code {
+    font-size: 58px;
+  }
+
+  .not-found-card h1 {
+    font-size: 24px;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+  }
+
+  .not-found-actions .btn {
+    width: 100%;
+  }
+}

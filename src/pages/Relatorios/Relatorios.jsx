@@ -49,7 +49,7 @@ function Relatorios() {
   }, [registros, busca, statusFiltro]);
 
   function editarRegistro(registro) {
-    navigate("/novo-registro", {
+    navigate("/novo", {
       state: { registroEmEdicao: registro },
     });
   }

@@ -8,7 +8,7 @@ import {
   CalendarDays,
 } from "lucide-react";
 
-import AuthService from "../../../services/AuthService";
+import AuthService from "../../services/AuthService";
 
 import "./SessoesTab.css";
 
