@@ -52,7 +52,7 @@ const TABS = [
 function Administracao() {
   const [tabAtiva, setTabAtiva] = useState("usuarios");
 
-  const { auditoria } = useAuditoria();
+  const { logs } = useAuditoria();
 
   const usuarios = useMemo(() => AuthService.listarUsuarios(), []);
 
@@ -68,10 +68,10 @@ function Administracao() {
     return {
       usuariosAtivos,
       administradores,
-      totalLogs: auditoria.length,
+      totalLogs: logs.length,
       sessoes: usuarioLogado ? 1 : 0,
     };
-  }, [usuarios, auditoria, usuarioLogado]);
+  }, [usuarios, logs, usuarioLogado]);
 
   function renderizarConteudo() {
     switch (tabAtiva) {

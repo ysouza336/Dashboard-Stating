@@ -49,8 +49,6 @@ function NovoRegistro() {
             reset({
                 patrimonio: registroEdicao.patrimonio || "",
                 hostname: registroEdicao.hostname || "",
-                serviceTag: registroEdicao.serviceTag || "",
-                serial: registroEdicao.serial || "",
                 tipo: registroEdicao.tipo || "",
                 marca: registroEdicao.marca || "",
                 modelo: registroEdicao.modelo || "",
@@ -78,18 +76,6 @@ function NovoRegistro() {
         }
     }, [patrimonio, hostname, setValue]);
 
-    /* =====================================================
-        LIMPEZA DA SERVICE TAG
-        (NÃO COPIA MAIS O HOSTNAME)
-    ===================================================== */
-
-    useEffect(() => {
-        const tagAtual = watch("serviceTag");
-
-        if (tagAtual === hostname) {
-            setValue("serviceTag", "");
-        }
-    }, [hostname, watch, setValue]);
 
     /* =====================================================
         SUBMIT DO FORMULÁRIO
@@ -99,7 +85,6 @@ function NovoRegistro() {
         const payload = {
             ...dados,
             hostname: dados.hostname.trim().toUpperCase(),
-            serviceTag: dados.serviceTag.trim().toUpperCase(),
             marca: dados.marca.trim(),
             modelo: dados.modelo.trim(),
         };

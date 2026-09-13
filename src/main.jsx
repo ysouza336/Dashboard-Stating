@@ -5,7 +5,9 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-import "./assets/styles/global.css";
+import "./styles/theme.css";
+import "./styles/globals.css";
+
 
 import { AuthProvider } from "./context/AuthContext";
 import { RegistroProvider } from "./context/RegistroContext";
