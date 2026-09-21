@@ -6,7 +6,10 @@ import {
   Laptop,
 } from "lucide-react";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 import { useRegistros } from "../../context/RegistroContext";
@@ -30,13 +33,23 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { usuarioLogado, logout } = useAuth();
-  const { registros = [] } = useRegistros();
+  const {
+    usuarioLogado,
+    logout,
+  } = useAuth();
+
+  const {
+    registros = [],
+  } = useRegistros();
 
   const [dataHora, setDataHora] = useState("");
 
   const [busca, setBusca] = useState("");
-  const [mostrarResultados, setMostrarResultados] = useState(false);
+
+  const [
+    mostrarResultados,
+    setMostrarResultados,
+  ] = useState(false);
 
   const [saindo, setSaindo] = useState(false);
 
@@ -63,7 +76,9 @@ function Header() {
       60000
     );
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   /* ==========================================================
@@ -71,7 +86,9 @@ function Header() {
   ========================================================== */
 
   const resultados = useMemo(() => {
-    const termo = busca.trim().toLowerCase();
+    const termo = busca
+      .trim()
+      .toLowerCase();
 
     if (!termo) {
       return [];
@@ -122,7 +139,9 @@ function Header() {
   ========================================================== */
 
   function handleLogout() {
-    if (saindo) return;
+    if (saindo) {
+      return;
+    }
 
     setSaindo(true);
 
@@ -147,6 +166,7 @@ function Header() {
       .split(" ")
       .filter(Boolean)
       .slice(0, 2)
+<<<<<<< HEAD
       .map((parte) => parte.charAt(0).toUpperCase())
       .join("");
   }
@@ -154,19 +174,47 @@ function Header() {
   const iniciaisUsuario = obterIniciais(
     usuarioLogado?.nome
   );
+=======
+      .map((parte) =>
+        parte
+          .charAt(0)
+          .toUpperCase()
+      )
+      .join("");
+  }
+
+  const iniciaisUsuario =
+    obterIniciais(
+      usuarioLogado?.nome
+    );
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
 
   return (
     <header className="header">
 
+<<<<<<< HEAD
       {/* ======================================================
           LADO ESQUERDO
       ====================================================== */}
+=======
+      {/* =====================================================
+          TÍTULO
+      ===================================================== */}
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
 
       <div className="header-title">
 
         <h4>
+<<<<<<< HEAD
           {titulos[location.pathname] ||
             "Controle Staging"}
+=======
+          {
+            titulos[
+              location.pathname
+            ] || "Controle Staging"
+          }
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
         </h4>
 
         <span>
@@ -175,6 +223,7 @@ function Header() {
 
       </div>
 
+<<<<<<< HEAD
       {/* ======================================================
           LADO DIREITO
       ====================================================== */}
@@ -184,6 +233,17 @@ function Header() {
         {/* =========================
             PESQUISA UNIVERSAL
         ========================= */}
+=======
+      {/* =====================================================
+          AÇÕES
+      ===================================================== */}
+
+      <div className="header-actions">
+
+        {/* =============================
+            PESQUISA UNIVERSAL
+        ============================== */}
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
 
         <div className="header-search">
 
@@ -203,7 +263,14 @@ function Header() {
               }
             }}
             onChange={(event) => {
+<<<<<<< HEAD
               setBusca(event.target.value);
+=======
+              setBusca(
+                event.target.value
+              );
+
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
               setMostrarResultados(true);
             }}
           />
@@ -225,11 +292,16 @@ function Header() {
 
                 {resultados.length === 0 ? (
                   <div className="header-search-empty">
+<<<<<<< HEAD
+=======
+
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
                     <Search size={18} />
 
                     <span>
                       Nenhum equipamento encontrado.
                     </span>
+<<<<<<< HEAD
                   </div>
                 ) : (
                   resultados.map((registro) => (
@@ -272,6 +344,64 @@ function Header() {
 
                     </button>
                   ))
+=======
+
+                  </div>
+                ) : (
+                  resultados.map(
+                    (registro) => (
+                      <button
+                        key={registro.id}
+                        type="button"
+                        className="header-search-result"
+                        onClick={() =>
+                          abrirRegistro(
+                            registro
+                          )
+                        }
+                      >
+
+                        <div className="header-search-result-icon">
+                          <Laptop size={18} />
+                        </div>
+
+                        <div className="header-search-result-info">
+
+                          <strong>
+                            {
+                              registro.patrimonio ||
+                              "Sem patrimônio"
+                            }
+                          </strong>
+
+                          <span>
+                            {
+                              registro.hostname ||
+                              "Sem hostname"
+                            }
+                          </span>
+
+                          <small>
+                            {
+                              registro.serviceTag ||
+                              registro.serial ||
+                              "Sem TAG/Serial"
+                            }
+                          </small>
+
+                        </div>
+
+                        <div className="header-search-status">
+                          {
+                            registro.status ||
+                            "-"
+                          }
+                        </div>
+
+                      </button>
+                    )
+                  )
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
                 )}
 
               </div>
@@ -279,9 +409,15 @@ function Header() {
 
         </div>
 
+<<<<<<< HEAD
         {/* =========================
             USUÁRIO
         ========================= */}
+=======
+        {/* =============================
+            USUÁRIO
+        ============================== */}
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
 
         {usuarioLogado && (
           <div className="header-user">
@@ -305,9 +441,15 @@ function Header() {
           </div>
         )}
 
+<<<<<<< HEAD
         {/* =========================
             LOGOUT
         ========================= */}
+=======
+        {/* =============================
+            LOGOUT
+        ============================== */}
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
 
         <button
           type="button"
@@ -319,7 +461,13 @@ function Header() {
           <LogOut size={18} />
 
           <span>
+<<<<<<< HEAD
             {saindo ? "Saindo..." : "Sair"}
+=======
+            {saindo
+              ? "Saindo..."
+              : "Sair"}
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
           </span>
         </button>
 

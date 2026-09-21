@@ -64,8 +64,7 @@ export function AuthProvider({ children }) {
         localStorage.removeItem(STORAGE_KEY);
         setUsuarioLogado(null);
 
-        // Sprint 7.2: registrar evento na Auditoria
-        // registrarAuditoria("Logout", usuarioLogado?.usuario);
+        
     }
 
     function renovarSessao() {

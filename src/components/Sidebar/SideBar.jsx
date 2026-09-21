@@ -6,7 +6,8 @@ import {
     PlusSquare,
     FileSpreadsheet,
     Sheet,
-    ShieldCheck
+    ShieldCheck,
+    UserShield
 } from "lucide-react";
 
 import "./Sidebar.css";
@@ -38,6 +39,11 @@ function Sidebar() {
             label: "Auditoria",
             path: "/auditoria",
             icon: ShieldCheck
+        },
+        {
+            label:"Administração",
+            path: "/administracao",
+            icon: UserShield
         }
     ];
 

@@ -49,7 +49,10 @@ function NovoRegistro() {
             reset({
                 patrimonio: registroEdicao.patrimonio || "",
                 hostname: registroEdicao.hostname || "",
+<<<<<<< HEAD
                 serial: registroEdicao.serial || "",
+=======
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
                 tipo: registroEdicao.tipo || "",
                 marca: registroEdicao.marca || "",
                 modelo: registroEdicao.modelo || "",
@@ -77,6 +80,10 @@ function NovoRegistro() {
         }
     }, [patrimonio, hostname, setValue]);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 11d42d943aea4ce8c86f1c5d7bca1b2348e16150
     /* =====================================================
         SUBMIT DO FORMULÁRIO
     ===================================================== */

@@ -1,6 +1,6 @@
 /* ==========================================================
    CONTROLE STAGING V2.0 BETA
-   HEADER
+   HEADER — HOMOLOGAÇÃO BUILD 006
 ========================================================== */
 
 .header {
@@ -22,6 +22,13 @@
   top: 0;
 
   z-index: 1000;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* ==========================================================
@@ -29,10 +36,12 @@
 ========================================================== */
 
 .header-title {
+  min-width: 190px;
+
   display: flex;
   flex-direction: column;
 
-  min-width: 180px;
+  justify-content: center;
 }
 
 .header-title h4 {
@@ -42,18 +51,22 @@
 
   font-size: 18px;
   font-weight: 700;
+
+  line-height: 1.2;
 }
 
 .header-title span {
-  margin-top: 3px;
+  margin-top: 5px;
 
   color: var(--text-secondary);
 
   font-size: 12px;
+
+  line-height: 1;
 }
 
 /* ==========================================================
-   AÇÕES
+   AÇÕES DO HEADER
 ========================================================== */
 
 .header-actions {
@@ -69,21 +82,60 @@
 }
 
 /* ==========================================================
-   PESQUISA
+   PESQUISA UNIVERSAL
 ========================================================== */
 
 .header-search {
   position: relative;
 
+  width: min(100%, 460px);
+}
+
+.header-search-input {
   width: 100%;
-  max-width: 440px;
+  height: 44px;
+
+  padding: 0 42px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--surface-secondary);
+
+  color: var(--text);
+
+  font-size: 13px;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.header-search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.header-search-input:hover {
+  border-color: var(--primary);
+}
+
+.header-search-input:focus {
+  background: var(--surface);
+
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.12);
+
+  outline: none;
 }
 
 .header-search-icon {
   position: absolute;
 
-  left: 12px;
   top: 50%;
+  left: 14px;
 
   transform: translateY(-50%);
 
@@ -94,41 +146,11 @@
   z-index: 2;
 }
 
-.header-search-input {
-  width: 100%;
-
-  height: 42px;
-
-  padding-left: 40px;
-  padding-right: 40px;
-
-  border: 1px solid var(--border);
-
-  border-radius: 12px;
-
-  background: var(--surface-secondary);
-
-  color: var(--text);
-
-  font-size: 13px;
-}
-
-.header-search-input:focus {
-  background: var(--surface);
-
-  border-color: var(--primary);
-
-  box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.12);
-}
-
 .header-search-clear {
   position: absolute;
 
-  right: 9px;
   top: 50%;
-
-  transform: translateY(-50%);
+  right: 9px;
 
   width: 28px;
   height: 28px;
@@ -137,18 +159,26 @@
   align-items: center;
   justify-content: center;
 
+  transform: translateY(-50%);
+
   border: none;
-  border-radius: 7px;
+  border-radius: 8px;
 
   background: transparent;
 
   color: var(--text-secondary);
 
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .header-search-clear:hover {
   background: var(--border);
+
+  color: var(--text);
 }
 
 /* ==========================================================
@@ -158,14 +188,16 @@
 .header-search-results {
   position: absolute;
 
+  top: calc(100% + 8px);
+
   left: 0;
   right: 0;
-
-  top: calc(100% + 8px);
 
   max-height: 420px;
 
   overflow-y: auto;
+
+  padding: 6px;
 
   background: var(--surface);
 
@@ -178,22 +210,31 @@
   z-index: 1100;
 }
 
+.header-search-results::-webkit-scrollbar {
+  width: 7px;
+}
+
+.header-search-results::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
 .header-search-result {
   width: 100%;
 
   display: grid;
 
-  grid-template-columns: 38px 1fr auto;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
 
   align-items: center;
 
   gap: 12px;
 
-  padding: 12px 14px;
+  padding: 11px 12px;
 
   border: none;
 
-  border-bottom: 1px solid var(--border);
+  border-radius: 10px;
 
   background: transparent;
 
@@ -202,19 +243,21 @@
   text-align: left;
 
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .header-search-result:hover {
   background: var(--surface-secondary);
-}
 
-.header-search-result:last-child {
-  border-bottom: none;
+  transform: translateX(2px);
 }
 
 .header-search-result-icon {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
 
   display: flex;
   align-items: center;
@@ -222,7 +265,7 @@
 
   border-radius: 10px;
 
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(37, 99, 235, 0.10);
 
   color: var(--primary);
 }
@@ -237,34 +280,60 @@
 }
 
 .header-search-result-info strong {
+  display: block;
+
+  color: var(--text);
+
   font-size: 13px;
+  font-weight: 700;
 
   white-space: nowrap;
-
   overflow: hidden;
-
   text-overflow: ellipsis;
 }
 
 .header-search-result-info span {
-  font-size: 12px;
+  display: block;
 
   color: var(--text-secondary);
+
+  font-size: 12px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-search-result-info small {
-  font-size: 11px;
+  display: block;
 
   color: var(--text-secondary);
+
+  font-size: 11px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-search-status {
-  font-size: 11px;
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  background: var(--surface-secondary);
 
   color: var(--text-secondary);
 
+  font-size: 10px;
+  font-weight: 600;
+
   white-space: nowrap;
 }
+
+/* ==========================================================
+   PESQUISA SEM RESULTADOS
+========================================================== */
 
 .header-search-empty {
   min-height: 110px;
@@ -273,7 +342,7 @@
   align-items: center;
   justify-content: center;
 
-  gap: 8px;
+  gap: 9px;
 
   color: var(--text-secondary);
 
@@ -281,14 +350,22 @@
 }
 
 /* ==========================================================
-   USUÁRIO
+   USUÁRIO LOGADO
 ========================================================== */
 
 .header-user {
   display: flex;
   align-items: center;
 
-  gap: 10px;
+  gap: 11px;
+
+  padding: 5px 8px 5px 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 14px;
+
+  background: var(--surface-secondary);
 
   flex-shrink: 0;
 }
@@ -297,19 +374,36 @@
   display: flex;
   flex-direction: column;
 
-  text-align: right;
+  align-items: flex-end;
+
+  min-width: 90px;
 }
 
 .header-user-info strong {
+  max-width: 150px;
+
   color: var(--text);
 
   font-size: 13px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
 
 .header-user-info span {
+  margin-top: 2px;
+
   color: var(--text-secondary);
 
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 500;
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .user-avatar {
@@ -322,12 +416,19 @@
 
   border-radius: 50%;
 
-  background: var(--primary);
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-hover)
+  );
 
   color: #ffffff;
 
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
+
+  box-shadow:
+    0 3px 8px rgba(37, 99, 235, 0.25);
 }
 
 /* ==========================================================
@@ -335,7 +436,7 @@
 ========================================================== */
 
 .header-logout {
-  min-height: 40px;
+  min-height: 42px;
 
   display: flex;
   align-items: center;
@@ -345,43 +446,59 @@
 
   padding: 0 14px;
 
-  border: 1px solid rgba(220, 38, 38, 0.25);
+  border: 1px solid rgba(220, 38, 38, 0.22);
 
-  border-radius: 10px;
+  border-radius: 11px;
 
-  background: rgba(220, 38, 38, 0.08);
+  background: rgba(220, 38, 38, 0.07);
 
-  color: #dc2626;
+  color: var(--danger);
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
 
   cursor: pointer;
 
   transition:
-    background 0.2s ease,
-    border-color 0.2s ease;
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .header-logout:hover {
-  background: rgba(220, 38, 38, 0.14);
+  background: rgba(220, 38, 38, 0.13);
 
-  border-color: rgba(220, 38, 38, 0.4);
+  border-color: rgba(220, 38, 38, 0.38);
+
+  transform: translateY(-1px);
+}
+
+.header-logout:active {
+  transform: translateY(0);
 }
 
 .header-logout:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
 
   cursor: not-allowed;
+
+  transform: none;
 }
 
 /* ==========================================================
-   RESPONSIVO
+   RESPONSIVO — TABLET
 ========================================================== */
 
 @media (max-width: 1100px) {
   .header {
     gap: 14px;
+
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .header-title {
+    min-width: 150px;
   }
 
   .header-user-info {
@@ -389,8 +506,14 @@
   }
 }
 
+/* ==========================================================
+   RESPONSIVO — MOBILE
+========================================================== */
+
 @media (max-width: 768px) {
   .header {
+    min-height: 64px;
+
     padding: 10px 14px;
 
     gap: 10px;
@@ -408,32 +531,100 @@
     display: none;
   }
 
+  .header-actions {
+    gap: 8px;
+  }
+
   .header-search {
-    max-width: none;
+    flex: 1;
+
+    width: auto;
+
+    min-width: 0;
+  }
+
+  .header-search-input {
+    height: 40px;
+
+    padding-left: 38px;
+
+    font-size: 12px;
+  }
+
+  .header-user {
+    padding: 4px;
+    border: none;
+    background: transparent;
+  }
+
+  .header-user-info {
+    display: none;
+  }
+
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .header-logout {
+    width: 40px;
+    height: 40px;
+
+    min-height: 40px;
+
+    padding: 0;
   }
 
   .header-logout span {
     display: none;
   }
 
-  .header-logout {
-    width: 40px;
-
-    padding: 0;
-  }
-
   .header-search-results {
     position: fixed;
 
-    left: 12px;
-    right: 12px;
-
-    top: 68px;
+    top: 70px;
+    left: 10px;
+    right: 10px;
 
     max-height: 60vh;
   }
 
   .header-search-status {
     display: none;
+  }
+}
+
+/* ==========================================================
+   MOBILE PEQUENO
+========================================================== */
+
+@media (max-width: 480px) {
+  .header {
+    padding: 9px 10px;
+  }
+
+  .header-title h4 {
+    font-size: 14px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .header-search-input {
+    padding-right: 34px;
+  }
+
+  .header-search-result {
+    grid-template-columns: 36px minmax(0, 1fr);
+
+    gap: 10px;
+
+    padding: 10px;
+  }
+
+  .header-search-result-icon {
+    width: 36px;
+    height: 36px;
   }
 }
