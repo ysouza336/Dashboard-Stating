@@ -1,45 +1,439 @@
+/* ==========================================================
+   CONTROLE STAGING V2.0 BETA
+   HEADER
+========================================================== */
+
 .header {
-  background: #fff;
-  padding: 18px 28px;
-  border-bottom: 1px solid #E5E7EB;
+  min-height: 72px;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  padding: 12px 24px;
+
+  background: var(--surface);
+
+  border-bottom: 1px solid var(--border);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
 }
 
-.header h4 {
+/* ==========================================================
+   TÍTULO
+========================================================== */
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 180px;
+}
+
+.header-title h4 {
   margin: 0;
+
+  color: var(--text);
+
+  font-size: 18px;
   font-weight: 700;
-  color: #1F2937;
 }
 
-.header span {
-  color: #6B7280;
+.header-title span {
+  margin-top: 3px;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+}
+
+/* ==========================================================
+   AÇÕES
+========================================================== */
+
+.header-actions {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 14px;
+
+  min-width: 0;
+}
+
+/* ==========================================================
+   PESQUISA
+========================================================== */
+
+.header-search {
+  position: relative;
+
+  width: 100%;
+  max-width: 440px;
+}
+
+.header-search-icon {
+  position: absolute;
+
+  left: 12px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: var(--text-secondary);
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+.header-search-input {
+  width: 100%;
+
+  height: 42px;
+
+  padding-left: 40px;
+  padding-right: 40px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  background: var(--surface-secondary);
+
+  color: var(--text);
+
   font-size: 13px;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.header-search-input:focus {
+  background: var(--surface);
+
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.header-actions input {
-  width: 260px;
+.header-search-clear {
+  position: absolute;
+
+  right: 9px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: var(--text-secondary);
+
+  cursor: pointer;
+}
+
+.header-search-clear:hover {
+  background: var(--border);
+}
+
+/* ==========================================================
+   RESULTADOS DA PESQUISA
+========================================================== */
+
+.header-search-results {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  top: calc(100% + 8px);
+
+  max-height: 420px;
+
+  overflow-y: auto;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 14px;
+
+  box-shadow: var(--shadow-lg);
+
+  z-index: 1100;
+}
+
+.header-search-result {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 38px 1fr auto;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border: none;
+
+  border-bottom: 1px solid var(--border);
+
+  background: transparent;
+
+  color: var(--text);
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.header-search-result:hover {
+  background: var(--surface-secondary);
+}
+
+.header-search-result:last-child {
+  border-bottom: none;
+}
+
+.header-search-result-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: rgba(37, 99, 235, 0.1);
+
+  color: var(--primary);
+}
+
+.header-search-result-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.header-search-result-info strong {
+  font-size: 13px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.header-search-result-info span {
+  font-size: 12px;
+
+  color: var(--text-secondary);
+}
+
+.header-search-result-info small {
+  font-size: 11px;
+
+  color: var(--text-secondary);
+}
+
+.header-search-status {
+  font-size: 11px;
+
+  color: var(--text-secondary);
+
+  white-space: nowrap;
+}
+
+.header-search-empty {
+  min-height: 110px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+}
+
+/* ==========================================================
+   USUÁRIO
+========================================================== */
+
+.header-user {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+}
+
+.header-user-info {
+  display: flex;
+  flex-direction: column;
+
+  text-align: right;
+}
+
+.header-user-info strong {
+  color: var(--text);
+
+  font-size: 13px;
+}
+
+.header-user-info span {
+  color: var(--text-secondary);
+
+  font-size: 11px;
 }
 
 .user-avatar {
-  width: 42px;
-  height: 42px;
-
-  border-radius: 50%;
-  background: #2563EB;
-  color: white;
+  width: 40px;
+  height: 40px;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  font-weight: bold;
+  border-radius: 50%;
+
+  background: var(--primary);
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   LOGOUT
+========================================================== */
+
+.header-logout {
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 14px;
+
+  border: 1px solid rgba(220, 38, 38, 0.25);
+
+  border-radius: 10px;
+
+  background: rgba(220, 38, 38, 0.08);
+
+  color: #dc2626;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.header-logout:hover {
+  background: rgba(220, 38, 38, 0.14);
+
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+.header-logout:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@media (max-width: 1100px) {
+  .header {
+    gap: 14px;
+  }
+
+  .header-user-info {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 14px;
+
+    gap: 10px;
+  }
+
+  .header-title {
+    min-width: auto;
+  }
+
+  .header-title h4 {
+    font-size: 15px;
+  }
+
+  .header-title span {
+    display: none;
+  }
+
+  .header-search {
+    max-width: none;
+  }
+
+  .header-logout span {
+    display: none;
+  }
+
+  .header-logout {
+    width: 40px;
+
+    padding: 0;
+  }
+
+  .header-search-results {
+    position: fixed;
+
+    left: 12px;
+    right: 12px;
+
+    top: 68px;
+
+    max-height: 60vh;
+  }
+
+  .header-search-status {
+    display: none;
+  }
 }

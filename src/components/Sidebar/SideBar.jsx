@@ -31,7 +31,7 @@ function Sidebar() {
         },
         {
             label: "Importar Excel",
-            path: "/importar",
+            path: "/importar-excel",
             icon: Sheet
         },
         {

@@ -49,7 +49,6 @@ function NovoRegistro() {
             reset({
                 patrimonio: registroEdicao.patrimonio || "",
                 hostname: registroEdicao.hostname || "",
-                serviceTag: registroEdicao.serviceTag || "",
                 serial: registroEdicao.serial || "",
                 tipo: registroEdicao.tipo || "",
                 marca: registroEdicao.marca || "",
@@ -79,19 +78,6 @@ function NovoRegistro() {
     }, [patrimonio, hostname, setValue]);
 
     /* =====================================================
-        LIMPEZA DA SERVICE TAG
-        (NÃO COPIA MAIS O HOSTNAME)
-    ===================================================== */
-
-    useEffect(() => {
-        const tagAtual = watch("serviceTag");
-
-        if (tagAtual === hostname) {
-            setValue("serviceTag", "");
-        }
-    }, [hostname, watch, setValue]);
-
-    /* =====================================================
         SUBMIT DO FORMULÁRIO
     ===================================================== */
 
@@ -99,7 +85,6 @@ function NovoRegistro() {
         const payload = {
             ...dados,
             hostname: dados.hostname.trim().toUpperCase(),
-            serviceTag: dados.serviceTag.trim().toUpperCase(),
             marca: dados.marca.trim(),
             modelo: dados.modelo.trim(),
         };
@@ -144,6 +129,7 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Identificação do Equipamento"
+                    description="Informações principais para identificação do equipamento no inventário."
                 >
                     <div className="row g-3">
 
@@ -169,6 +155,26 @@ function NovoRegistro() {
                             />
                         </div>
 
+                        <div className="col-md-6">
+                            <FormField
+                                name="serial"
+                                label="Serial Number"
+                                register={register}
+                                error={errors.serial}
+                                placeholder="Número de série do equipamento"
+                            />
+                        </div>
+
+                        <div className="col-md-6">
+                            <FormField
+                                name="modelo"
+                                label="Modelo"
+                                register={register}
+                                error={errors.modelo}
+                                placeholder="Ex.: Latitude 5450"
+                            />
+                        </div>
+
                     </div>
                 </FormSection>
 
@@ -178,6 +184,7 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Informações do Equipamento"
+                    description="Categoria e fabricante do equipamento."
                 >
                     <div className="row g-3">
 
@@ -223,6 +230,7 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Solicitação e Responsável"
+                    description="Quem solicitou o equipamento e qual técnico é responsável."
                 >
                     <div className="row g-3">
 
@@ -257,6 +265,7 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Informações da Implantação"
+                    description="Dados utilizados durante o processo de staging."
                 >
                     <div className="row g-3">
 
@@ -299,6 +308,7 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Status do Processo"
+                    description="Acompanhamento da preparação do equipamento."
                 >
                     <div className="row g-3">
 
@@ -339,6 +349,7 @@ function NovoRegistro() {
 
                 <FormSection
                     title="Observações"
+                    description="Informações adicionais sobre o equipamento ou processo de staging."
                 >
                     <TextAreaField
                         name="observacao"
@@ -360,21 +371,21 @@ function NovoRegistro() {
 
                     <div className="row g-3">
 
-                        <div className="col-md-3">
+                        <div className="col-md-4">
                             <div className="resumo-item">
                                 <span>Patrimônio</span>
                                 <strong>{watch("patrimonio") || "--"}</strong>
                             </div>
                         </div>
 
-                        <div className="col-md-3">
+                        <div className="col-md-4">
                             <div className="resumo-item">
                                 <span>Hostname</span>
                                 <strong>{watch("hostname") || "--"}</strong>
                             </div>
                         </div>
 
-                        <div className="col-md-3">
+                        <div className="col-md-4">
                             <div className="resumo-item">
                                 <span>Marca / Modelo</span>
                                 <strong>
